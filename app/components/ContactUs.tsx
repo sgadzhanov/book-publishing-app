@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function ContactUs() {
   return (
-    <div className="flex px-6 py-20 w-[90%] mx-auto">
+    <div className="flex flex-col md:flex-row gap-12 px-6 py-20 w-full md:w-[90%] mx-auto">
 
       {/* left side - form */}
       <div className="flex-1">
@@ -14,7 +14,7 @@ export default function ContactUs() {
         <ContactUsForm />
       </div>
 
-      <div className="relative w-1/2 h-[400px] rounded-xl outline-hidden">
+      <div className="relative w-full md:w-1/2 h-[400px] rounded-xl outline-hidden">
         <Image
           src="/images/contact-form.avif"
           alt="Contact us"

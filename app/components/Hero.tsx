@@ -57,7 +57,7 @@ export default function Hero() {
 					</div>
 
 					{/* BUTTONS */}
-					<div className="flex justify-center gap-4 mt-20">
+					<div className="flex flex-col md:flex-row justify-center gap-4 mt-20">
 						<button className="bg-linear-to-r from-[#F2C94C] to-[#F2994A] px-6 py-3 rounded-md shadow font-bold transition-transform duration-200 hover:-translate-y-1 text-slate-100">
 							Discover books
 						</button>

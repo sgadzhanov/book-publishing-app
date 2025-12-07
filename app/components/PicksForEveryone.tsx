@@ -12,7 +12,7 @@ const images = [
     description: "Jamie discusses writing journeys and sparking young imaginations.",
   },
   {
-    path: "/images/books5.avif",
+    path: "/images/books11.avif",
     title: "Top 5 new books to try",
     description: "Explore standout releases and staff favorites this month.",
   },
@@ -26,7 +26,7 @@ const images = [
 export default function PicksForEveryone() {
   return (
     <Section>
-      <div className="px-10">
+      <div className="p-10">
         <h1 className="text-5xl font-semibold text-slate-700">Fresh picks for every reader</h1>
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
           {images.map((imgData) => (
