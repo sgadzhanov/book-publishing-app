@@ -16,9 +16,7 @@ function AccordionItem({ question, answer }: AccordionItemType) {
         <p className="material-symbols-outlined">
           {open ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}
         </p>
-        {/* <p>{open ? "▲" : "▼"}</p> */}
       </button>
-
       {open && <p className="mt-1 text-slate-600 text-sm font-semibold">{answer}</p>}
     </li>
   )
