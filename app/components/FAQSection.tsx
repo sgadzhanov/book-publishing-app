@@ -22,18 +22,16 @@ const faqs = [
 
 export default function FAQSection() {
   return (
-    <Section>
-      <section className="flex flex-col gap-8 max-w-full py-18 px-12 m-auto">
-        <div className="flex flex-col gap-2">
-          <h1 className="font-semibold text-4xl">Answers for curious readers</h1>
-          <p className="text-slate-600">Quick help for your book questions, submissions, and events.</p>
-        </div>
-        <ul>
-          {faqs.map((item, i) => (
-            <AccordionItem key={i} {...item} />
-          ))}
-        </ul>
-      </section>
-    </Section>
+    <section className="flex flex-col gap-8 max-w-full py-18 px-12 m-auto text-slate-700">
+      <div className="flex flex-col gap-2">
+        <h1 className="font-semibold text-4xl">Answers for curious readers</h1>
+        <p>Quick help for your book questions, submissions, and events.</p>
+      </div>
+      <ul>
+        {faqs.map((item, i) => (
+          <AccordionItem key={i} {...item} />
+        ))}
+      </ul>
+    </section>
   )
 }

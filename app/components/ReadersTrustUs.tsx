@@ -30,8 +30,8 @@ const data = [
 
 export default function ReadersTrustUs() {
   return (
-    <div className="p-6 py-20 md:p-30 flex flex-col gap-12">
-      <h1 className="text-4xl text-center md:text-start">Readers trust our book picks</h1>
+    <div className="p-6 py-20 md:p-30 flex flex-col gap-12 bg-violet-50">
+      <h1 className="text-4xl text-slate-800 text-center md:text-start">Readers trust our book picks</h1>
       <ul className="flex flex-col md:flex-row justify-center items-center gap-6">
         {renderListItems(data.slice(0, 2))}
       </ul>
@@ -59,7 +59,7 @@ function renderListItems(data: Review[]) {
 
 function ListItem({ author, text, works }: Review) {
   return (
-    <li key={author} className="max-w-3/4 md:max-w-2/5 min-h-50 flex flex-col justify-between gap-4 rounded-lg bg-slate-200 p-4">
+    <li key={author} className="max-w-3/4 md:max-w-2/5 min-h-50 flex flex-col justify-between gap-4 rounded-lg bg-slate-200 text-slate-600 p-4">
       <p>{text}</p>
       <div>
         <p className="font-semibold">{author}</p>

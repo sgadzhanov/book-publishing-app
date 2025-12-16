@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function ContactUs() {
   return (
-    <div className="flex flex-col md:flex-row gap-12 px-6 py-20 w-full md:w-[90%] mx-auto">
+    <div className="flex flex-col md:flex-row bg-violet-50 gap-12 px-6 lg:px-12 py-20 w-full mx-auto">
 
       {/* left side - form */}
       <div className="flex-1">

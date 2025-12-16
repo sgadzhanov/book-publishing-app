@@ -5,19 +5,19 @@ export default function NavBar() {
 		<nav className="flex items-center justify-between py-4 px-8 bg-fuchsia-50">
 			{/* LOGO */}
 			<Image
-				src='/new-logo.png'
+				src='/images/fuschia-logo.png'
 				alt="Logo"
-				width={90}
-				height={90}
-				className="bg-transparent rounded-xl"
+				width="130"
+				height="130"
+				className="h-26 w-18 rounded-xl"
 			/>
 
 			{/* MENU */}
 			<ul className="hidden md:flex items-center gap-8 text-slate-700">
-				<li className="cursor-pointer font-semibold transition delay-50 hover hover:text-indigo-500">Books</li>
-				<li className="cursor-pointer font-semibold transition delay-50 hover hover:text-indigo-500">About</li>
-				<li className="cursor-pointer font-semibold transition delay-50 hover hover:text-indigo-500">Blog</li>
-				<li className="cursor-pointer font-semibold transition delay-50 hover hover:text-indigo-500">Support</li>
+				<li className="cursor-pointer font-semibold transition delay-50 hover hover:text-amber-600">Books</li>
+				<li className="cursor-pointer font-semibold transition delay-50 hover hover:text-amber-600">About</li>
+				<li className="cursor-pointer font-semibold transition delay-50 hover hover:text-amber-600">Blog</li>
+				<li className="cursor-pointer font-semibold transition delay-50 hover hover:text-amber-600">Support</li>
 			</ul>
 
 			{/* SIGN IN */}

@@ -17,7 +17,7 @@ function AccordionItem({ question, answer }: AccordionItemType) {
           {open ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}
         </p>
       </button>
-      {open && <p className="mt-1 text-slate-600 text-sm font-semibold">{answer}</p>}
+      {open && <p className="mt-1 text-slate-600">{answer}</p>}
     </li>
   )
 }

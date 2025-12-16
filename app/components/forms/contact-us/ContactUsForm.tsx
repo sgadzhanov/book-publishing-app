@@ -30,7 +30,7 @@ export default function ContactUsForm() {
       </div>
       <button
         type="button"
-        className='md:max-w-1/2 lg:max-w-1/3 bg-violet-100 hover:bg-violet-200 border border-violet-200 hover:shadow-xl cursor-pointer transition p-4 font-medium'
+        className='w-full md:max-w-1/2 bg-indigo-400 hover:bg-indigo-300 border border-violet-200 hover:shadow-xl cursor-pointer transition p-4 text-lg'
       >
         Send message
       </button>

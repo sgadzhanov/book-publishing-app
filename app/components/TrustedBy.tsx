@@ -23,7 +23,7 @@ const arr2 = [
 
 export default function TrustedBy() {
   return (
-    <Section>
+    <section className="py-10 bg-purple-100">
       <div className="max-w-5xl m-auto flex flex-col gap-4 text-center bg-violet-100 rounded-lg border-2 border-violet-200 px-4 md:px-40 py-5">
         <h2 className="text-slate-800 text-5xl font-bold">Trusted by top publishing partners</h2>
         <p className="text-slate-600 text-xl font-semibold mb-4">
@@ -32,6 +32,6 @@ export default function TrustedBy() {
         {renderListItems(arr1)}
         {renderListItems(arr2)}
       </div>
-    </Section>
+    </section>
   )
 }
