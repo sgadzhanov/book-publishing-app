@@ -47,6 +47,8 @@ jobs:
           --data-urlencode "To=${{ secrets.TWILIO_WHATSAPP_TO }}" \
           --data-urlencode "Body=✅ Update deployed successfully
 
+          ♥️ Хей, Мими! Тук и по този начин ще ти изпращам известия при всяко обновяване на сайта!
+
           🔗 App:
           https://book-publishing-app-g2v6.vercel.app/
 
