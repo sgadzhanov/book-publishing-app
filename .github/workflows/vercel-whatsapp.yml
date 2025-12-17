@@ -33,7 +33,8 @@ jobs:
           https://api.github.com/repos/${{ github.repository }}/commits/$SHA \
           | jq -r '.commit.message')
 
-          BULLETS=$(echo "$MESSAGE" | grep '^- ' || echo "- Minor updates")
+          TITLE=$(echo "$MESSAGE" | head -n 1)
+          BULLETS=$(echo "$MESSAGE" | grep '^- ' || echo "- $TITLE")
 
           echo "bullets<<EOF" >> $GITHUB_OUTPUT
           echo "$BULLETS" >> $GITHUB_OUTPUT
@@ -47,7 +48,7 @@ jobs:
           --data-urlencode "Body=✅ Update deployed successfully
 
           🔗 App:
-          ${{ github.event.deployment_status.target_url }}
+          https://book-publishing-app-g2v6.vercel.app/
 
           📝 What changed:
           ${{ steps.commit.outputs.bullets }}" \
