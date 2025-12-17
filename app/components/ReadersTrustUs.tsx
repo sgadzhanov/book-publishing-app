@@ -60,10 +60,10 @@ function renderListItems(data: Review[]) {
 function ListItem({ author, text, works }: Review) {
   return (
     <li key={author} className="max-w-3/4 md:max-w-2/5 min-h-50 flex flex-col justify-between gap-4 rounded-lg bg-slate-200 text-slate-600 p-4">
-      <p>{text}</p>
+      <p className="text-lg">{text}</p>
       <div>
         <p className="font-semibold">{author}</p>
-        <p className="text-xs">{works}</p>
+        <p className="text-sm">{works}</p>
       </div>
     </li>
   )
