@@ -41,7 +41,7 @@ export default async function BookDetailsPage({ params }: { params: Promise<{ sl
             <p>{book.shortTagline}</p>
             <p>€{book.price}</p>
           </div>
-        <h1 className='text-neutral-600 text-4xl mt-10 '>Still todo on this page 🤝 :-)</h1>
+        <h1 className='text-neutral-600 text-4xl mt-10 '>Much more to come on this page 🤝 :-)</h1>
         </div>
       </div>
     </section>
