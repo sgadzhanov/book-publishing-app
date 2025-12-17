@@ -9,8 +9,7 @@ permissions:
 jobs:
   notify:
     if: >
-      github.event.deployment_status.state == 'success' &&
-      github.event.deployment.environment == 'production'
+      github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
 
     steps:

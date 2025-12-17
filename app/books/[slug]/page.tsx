@@ -1,4 +1,4 @@
-
+import { useRouter } from 'next/router'
 import { trendingBooks } from '@/data'
 import { BookType } from '@/types'
 import Image from 'next/image'
@@ -10,6 +10,7 @@ function getBook(slug: string) {
 export default async function BookDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const book: BookType | undefined = getBook(slug)
+  const router = useRouter()
 
   if (!book) {
     return <div>Book not found</div>
@@ -17,7 +18,12 @@ export default async function BookDetailsPage({ params }: { params: Promise<{ sl
 
   return (
     <section className='w-3/4 mx-auto mt-12 mb-6'>
-      <p className='text-slate-500 w-fit cursor-default text-lg transition-all duration-100 hover:text-slate-700'>BACK</p>
+      <p
+        className='text-slate-500 w-fit cursor-default text-lg transition-all duration-100 hover:text-slate-700'
+        onClick={() => router.back()}
+      >
+        BACK
+      </p>
       <div className="flex flex-col md:flex-row gap-8 justify-center mx-auto h-[calc(100vh-206px)]">
         <div className="relative w-full md:w-[340px] aspect-2/3 overflow-hidden rounded-md shadow-2xl transition-shadow duration-300 group-hover:shadow-2xl">
           <Image
@@ -41,7 +47,7 @@ export default async function BookDetailsPage({ params }: { params: Promise<{ sl
             <p>{book.shortTagline}</p>
             <p>€{book.price}</p>
           </div>
-        <h1 className='text-neutral-600 text-4xl mt-10 '>Much more to come on this page 🤝 :-)</h1>
+          <h1 className='text-neutral-600 text-4xl mt-10 '>Much more to come on this page 🤝 :-)</h1>
         </div>
       </div>
     </section>
