@@ -23,7 +23,7 @@ const arr2 = [
 
 export default function TrustedBy() {
   return (
-    <section className="py-10 bg-purple-100">
+    <section className="py-10 bg-fuchsia-50">
       <div className="max-w-5xl m-auto flex flex-col gap-4 text-center bg-violet-100 rounded-lg border-2 border-violet-200 px-4 md:px-40 py-5">
         <h2 className="text-slate-800 text-5xl font-bold">Trusted by top publishing partners</h2>
         <p className="text-slate-600 text-xl font-semibold mb-4">
