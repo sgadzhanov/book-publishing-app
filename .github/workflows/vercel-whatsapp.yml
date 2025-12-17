@@ -10,7 +10,7 @@ jobs:
   notify:
     if: >
       github.event.deployment_status.state == 'success' &&
-      github.event.deployment_status.target_url != ''
+      contains(github.event.deployment_status.target_url, 'book-publishing-app-g2v6')
     runs-on: ubuntu-latest
 
     steps:
@@ -44,5 +44,11 @@ jobs:
           curl --fail -X POST https://api.twilio.com/2010-04-01/Accounts/${{ secrets.TWILIO_ACCOUNT_SID }}/Messages.json \
           --data-urlencode "From=${{ secrets.TWILIO_WHATSAPP_FROM }}" \
           --data-urlencode "To=${{ secrets.TWILIO_WHATSAPP_TO }}" \
-          --data-urlencode "Body=✅ Deployment successful!\n\n🔗 App:\n${{ github.event.deployment_status.target_url }}\n\n📝 What changed:\n${{ steps.commit.outputs.bullets }}" \
-          -u "${{ secrets.TWILIO_ACCOUNT_SID }}:${{ secrets.TWILIO_AUTH_TOKEN }}" 
+          --data-urlencode "Body=✅ Update deployed successfully
+
+          🔗 App:
+          ${{ github.event.deployment_status.target_url }}
+
+          📝 What changed:
+          ${{ steps.commit.outputs.bullets }}" \
+              -u "${{ secrets.TWILIO_ACCOUNT_SID }}:${{ secrets.TWILIO_AUTH_TOKEN }}"
