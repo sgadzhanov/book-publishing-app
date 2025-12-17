@@ -1,47 +1,19 @@
-name: WhatsApp on Vercel Deployment Success
+name: DEBUG – Inspect Vercel Deployment Status
 
 on:
   deployment_status:
 
-permissions:
-  contents: read
-
 jobs:
-  notify:
-    if: >
-      github.event.deployment_status.state == 'success'
+  debug:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Debug deployment event (temporary)
+      - name: Dump deployment_status payload
         run: |
-          echo "State: ${{ github.event.deployment_status.state }}"
-          echo "Environment: ${{ github.event.deployment.environment }}"
-          echo "URL: ${{ github.event.deployment_status.target_url }}"
-          echo "SHA: ${{ github.event.deployment.sha }}"
-
-
-      - name: Fetch commit message
-        id: commit
-        run: |
-          SHA="${{ github.event.deployment.sha }}"
-
-          MESSAGE=$(curl -s \
-          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-          -H "Accept: application/vnd.github+json" \
-          https://api.github.com/repos/${{ github.repository }}/commits/$SHA \
-          | jq -r '.commit.message')
-
-          BULLETS=$(echo "$MESSAGE" | grep '^- ' || echo "- Minor updates")
-
-          echo "bullets<<EOF" >> $GITHUB_OUTPUT
-          echo "$BULLETS" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      - name: Send WhatsApp message via Twilio
-        run: |
-          curl --fail -X POST https://api.twilio.com/2010-04-01/Accounts/${{ secrets.TWILIO_ACCOUNT_SID }}/Messages.json \
-          --data-urlencode "From=${{ secrets.TWILIO_WHATSAPP_FROM }}" \
-          --data-urlencode "To=${{ secrets.TWILIO_WHATSAPP_TO }}" \
-          --data-urlencode "Body=✅ Deployment successful!\n\n🔗 App:\n${{ github.event.deployment_status.target_url }}\n\n📝 What changed:\n${{ steps.commit.outputs.bullets }}" \
-          -u "${{ secrets.TWILIO_ACCOUNT_SID }}:${{ secrets.TWILIO_AUTH_TOKEN }}" 
+          echo "=== DEPLOYMENT STATUS ==="
+          echo "state: ${{ github.event.deployment_status.state }}"
+          echo "description: ${{ github.event.deployment_status.description }}"
+          echo "environment: ${{ github.event.deployment.environment }}"
+          echo "target_url: ${{ github.event.deployment_status.target_url }}"
+          echo "creator: ${{ github.event.deployment_status.creator.login }}"
+          echo "sha: ${{ github.event.deployment.sha }}"
