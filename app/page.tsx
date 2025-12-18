@@ -25,13 +25,6 @@ export default function Home() {
         <h2 className="text-3xl font-bold mb-6 text-slate-800">Featured Books</h2>
         <FeaturedBooks />
       </section>
-
-      <Section>
-        <h2 className="text-3xl font-bold mb-6 text-slate-800">Our Space</h2>
-        <p className="text-slate-700">
-          Cozy reading nooks, quiet corners, and warm community vibes.
-        </p>
-      </Section>
     </>
   )
 }

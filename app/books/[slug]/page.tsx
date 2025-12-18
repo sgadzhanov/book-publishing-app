@@ -18,15 +18,13 @@ export default async function BookDetailsPage({ params }: { params: Promise<{ sl
   return (
     <section className='w-3/4 mx-auto mt-12 mb-6'>
       <GoBack />
-      <div className="flex flex-col md:flex-row gap-8 justify-center mx-auto h-[calc(100vh-206px)]">
-        <div className="relative w-full md:w-[340px] aspect-2/3 overflow-hidden rounded-md shadow-2xl transition-shadow duration-300 group-hover:shadow-2xl">
+      <div className="flex flex-col md:flex-row gap-8 justify-center mx-auto">
+        <div className="relative w-full md:w-[340px] min-h-[440px] md:h-auto aspect-2/3 overflow-hidden rounded-md shadow-2xl transition-shadow duration-300 group-hover:shadow-2xl">
           <Image
             src={book.coverImage}
             alt={slug}
             fill
             className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-            // width="310"
-            // height="280"
             priority
           />
         </div>

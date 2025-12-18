@@ -28,16 +28,7 @@ export default function ContactUs() {
         </div>
 
         {/* Contact options container (below image) */}
-        <div
-          className="
-      rounded-b-xl
-      bg-white
-      shadow-lg
-      p-5
-      flex flex-col sm:flex-row
-      gap-6 sm:gap-8
-    "
-        >
+        <div className="rounded-b-xl bg-white shadow-lg p-5 flex flex-col sm:mx-1 items-center sm:flex-row gap-6 sm:gap-8">
           {/* Reach out directly */}
           <div className="flex items-center gap-4">
             <div className="flex items-center justify-center w-10 h-10 rounded-full bg-violet-100 text-violet-600">
