@@ -1,5 +1,5 @@
 import Image from "next/image"
-import Section from "./ui/Section"
+import Section from "../ui/Section"
 
 export default function Hero() {
 	return (
@@ -40,7 +40,7 @@ export default function Hero() {
 						Read. Imagine. Connect. Repeat.
 					</h1>
 
-					<p className="mt-6 font-semibold text-lg text-slate-600 md:max-w-lg mx-auto leading-relaxed">
+					<p className="mt-6 font-semibold text-lg text-slate-600 md:max-w-lg mx-auto leading-relaxed md:px-6 xl:px-0">
 						Browse our handpicked books—new releases, beloved classics, and hidden gems.
 						Find your next great read in a welcoming space for all ages.
 					</p>

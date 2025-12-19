@@ -1,6 +1,6 @@
-import ContactUsForm from "./forms/contact-us/ContactUsForm";
 import Image from "next/image";
-import ContactUsIcon from "./icons/ContactUsIcon";
+import ContactUsIcon from "../icons/ContactUsIcon";
+import ContactUsForm from "../forms/contact-us/ContactUsForm";
 
 export default function ContactUs() {
   return (

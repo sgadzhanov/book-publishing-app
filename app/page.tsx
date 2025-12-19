@@ -1,13 +1,12 @@
 import Image from "next/image"
-import ContactUs from "./components/ContactUs"
-import FAQSection from "./components/FAQSection"
-import FindYourBook from "./components/FindYourBook"
-import Hero from "./components/Hero"
-import PicksForEveryone from "./components/PicksForEveryone"
-import ReadersTrustUs from "./components/ReadersTrustUs"
-import TrustedBy from "./components/TrustedBy"
-import Section from "./components/ui/Section"
-import FeaturedBooks from "./components/FeaturedBooks"
+import Hero from "./components/hero/Hero"
+import TrustedBy from "./components/hero/TrustedBy"
+import PicksForEveryone from "./components/hero/PicksForEveryone"
+import FindYourBook from "./components/hero/FindYourBook"
+import ReadersTrustUs from "./components/hero/ReadersTrustUs"
+import FAQSection from "./components/ui/FAQSection"
+import ContactUs from "./components/hero/ContactUs"
+import FeaturedBooks from "./components/hero/FeaturedBooks"
 
 
 export default function Home() {

@@ -1,4 +1,4 @@
-import Section from "./ui/Section";
+import Section from "../ui/Section"
 
 const images = [
   {

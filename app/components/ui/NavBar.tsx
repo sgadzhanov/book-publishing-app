@@ -1,9 +1,11 @@
-'use client'
+"use client"
 
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { X, Menu } from 'lucide-react'
+import { X, Menu } from "lucide-react"
+
+const LINKS = ["Books", "About", "Blog", "Support"]
 
 export default function NavBar() {
 	const [isOpen, setIsOpen] = useState(false)
@@ -23,11 +25,9 @@ export default function NavBar() {
 				</Link>
 
 				{/* DESKTOP MENU */}
-				<ul className="hidden md:flex items-center gap-8 te-slate-700">
-					{["Books", "About", "Blog", "Support"].map((item) => (
-						<li className="cursor-pointer font-semibold transition hover:text-amber-600" key={item}>
-							{item}
-						</li>
+				<ul className="hidden md:flex items-center gap-8 text-slate-700 text-lg">
+					{LINKS.map((item) => (
+						<LinkItem item={item} key={item}/>
 					))}
 				</ul>
 
@@ -48,15 +48,7 @@ export default function NavBar() {
 			{isOpen && (
 				<div className="md:hidden bg-fuchsia-50 border-t border-stone-400">
 					<ul className="flex flex-col items-center gap-6 py-6 text-slate-700">
-						{["Books", "About", "Blog", "Support"].map((item) => (
-							<li
-								className="cursor-pointer font-semibold transition hover:text-amber-600"
-								key={item}
-								onClick={() => setIsOpen(false)}
-							>
-								{item}
-							</li>
-						))}
+						{LINKS.map((item) => <LinkItem item={item} setIsOpen={setIsOpen} key={item}/>)}
 						<button className="bg-[#FFA273] hover:bg-orange-400 transition py-3 px-10 font-bold">
 							Sign in
 						</button>
@@ -64,5 +56,22 @@ export default function NavBar() {
 				</div>
 			)}
 		</nav>
+	)
+}
+
+function LinkItem({ item, setIsOpen }: { item: string, setIsOpen?: (isOpen: boolean) => void }) {
+	return (
+		<Link key={item} href={`/${item.toLowerCase()}`}>
+			<li
+				className="cursor-pointer font-semibold transition hover:text-amber-600"
+				key={item}
+				onClick={() => {
+					if (!setIsOpen) return
+					setIsOpen(false)
+				}}
+			>
+				{item}
+			</li>
+		</Link>
 	)
 }

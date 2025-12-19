@@ -1,5 +1,4 @@
-import AccordionItem from "./ui/AccordionItem"
-import Section from "./ui/Section"
+import AccordionItem from "./AccordionItem"
 
 const faqs = [
   {
@@ -22,7 +21,7 @@ const faqs = [
 
 export default function FAQSection() {
   return (
-    <section className="flex flex-col gap-8 max-w-full py-18 px-12 m-auto text-slate-700">
+    <section className="flex flex-col gap-8 max-w-full py-18 px-0 md:px-12 m-auto text-slate-700">
       <div className="flex flex-col gap-2">
         <h1 className="font-semibold text-4xl">Answers for curious readers</h1>
         <p>Quick help for your book questions, submissions, and events.</p>
