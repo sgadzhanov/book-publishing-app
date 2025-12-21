@@ -30,7 +30,7 @@ export default function   ContactUsForm() {
       </div>
       <button
         type="button"
-        className='w-full md:max-w-1/2 bg-indigo-400 hover:bg-indigo-300 border border-violet-200 hover:shadow-xl cursor-pointer transition p-4 text-lg'
+        className='w-full md:max-w-1/2 text-slate-50 bg-indigo-400 hover:bg-indigo-300 border border-violet-200 hover:shadow-xl cursor-pointer transition p-4 text-lg'
       >
         Send message
       </button>
@@ -56,7 +56,7 @@ function InputField({
   placeholder,
 }: InputFieldProps) {
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full shadow-xl">
       <label htmlFor={name} className="text-slate-500 uppercase text-xs">{label}</label>
       {type === 'textarea' ? (
         <textarea

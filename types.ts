@@ -7,9 +7,9 @@ export type BookType = {
     slug: string
   }
   coverImage: string
-  category: string
-  badge?: string
-  ageGroup?: string
+  labels: string[]
+  ageGroup?: "Kids" | "Teens" | "Adults"
+  badges?: string[]
   shortTagline: string
   publishedYear: number
   isFeatured: boolean

@@ -3,20 +3,14 @@ import Image from "next/image"
 
 import { trendingBooks } from '@/data'
 import Link from "next/link"
+import BookCard from "../BookCard"
 
 
 export default function FeaturedBooks() {
   return (
     <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1 lg:gap-4">
       {trendingBooks.map((book: BookType) => (
-        <BookItem
-          key={book.id}
-          id={book.id}
-          slug={book.slug}
-          author={book.author.name}
-          coverImage={book.coverImage}
-          title={book.title}
-        />
+        <BookCard key={book.id} book={{ ...book }} />
       ))}
     </ul>
   )
