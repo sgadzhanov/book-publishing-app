@@ -25,20 +25,18 @@ function sortBooks(books: BookType[], sort?: string) {
 }
 
 type BooksPageProps = {
-  searchParams?: {
+  searchParams: Promise<{
     labels?: string
     sort?: string
     page?: string
-  }
+  }>
 }
 
-export default async function BooksPage({ searchParams }: BooksPageProps) {
-  const selectedLabels = searchParams?.labels
-    ? searchParams.labels.split(",")
-    : undefined
-
-  const sort = searchParams?.sort
-  const page = Number(searchParams?.page ?? 1)
+export default async function BooksPage(props: BooksPageProps) {
+  const searchParams = await props.searchParams
+  
+  const sort = searchParams.sort
+  const page = Number(searchParams.page) || 1
 
   const books: BookType[] = await sanityFetch<BookType[]>({ query: allBooksQuery })
 

@@ -5,6 +5,6 @@ export async function sanityFetch<QueryResponse>({
   params = {},
 }: { query: string; params?: Record<string, unknown> }) {
   return client.fetch<QueryResponse>(query, params, {
-    next: { revalidate: 3600 },
+    next: { revalidate: 60 }, // Changes appear withing 60 seconds
   })
 }

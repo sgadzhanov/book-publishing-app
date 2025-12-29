@@ -69,7 +69,12 @@ export default async function BookDetailsPage({ params }: { params: Promise<{ sl
     query: relatedBooksQuery,
     params: { currentSlug: slug },
   })
-  const primaryLabel = book.labels[0]
+  console.log({book})
+
+  const bookLabels = book.labels ?? []
+  const primaryLabel = bookLabels.length > 0 ? bookLabels[0] : "General"
+
+  const price = book.price ?? "Contact for price"
 
   return (
     <section className="w-3/4 mx-auto mt-12 mb-6">
