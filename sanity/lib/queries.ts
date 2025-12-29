@@ -36,6 +36,7 @@ export const relatedBooksQuery = groq`
     coverImage,
     price,
     shortTagline,
-    labels
+    labels,
+    author->{name}
   }
 `
