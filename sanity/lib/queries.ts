@@ -1,0 +1,41 @@
+import { groq } from "next-sanity"
+
+const authorFields = groq`
+  author->{name, bio, "image": image.asset->url}
+`
+
+export const allBooksQuery = groq`
+  *[_type == "book"] {
+    title,
+    "slug": slug.current,
+    coverImage,
+    price,
+    shortTagline,
+    ${authorFields},
+    labels,
+    badges
+  }
+`
+
+export const singleBookQuery = groq`*[_type == "book" && slug.current == $slug][0]{
+    title,
+    price,
+    shortTagline,
+    publishedYear,
+    labels,
+    badges,
+    coverImage,
+    ${authorFields}
+  }
+`
+
+export const relatedBooksQuery = groq`
+  *[_type == "book" && slug.current != $currentSlug] | order(_createdAt desc) [0...3] {
+    title,
+    "slug": slug.current,
+    coverImage,
+    price,
+    shortTagline,
+    labels
+  }
+`

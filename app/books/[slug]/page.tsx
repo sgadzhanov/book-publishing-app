@@ -1,20 +1,23 @@
-import { trendingBooks } from "@/data"
-import { Metadata } from "next"
-import { BookType } from "@/types"
-import { BADGE_STYLES } from '@/app/utils/typeHelpers'
-import Image from "next/image"
-import GoBack from "./GoBack"
-import Link from "next/link"
-import Breadcrumbs from "@/app/components/ui/BreadCrumbs"
-import Badge from "@/app/components/ui/Badge"
 import BooksCard from "@/app/components/BookCard"
+import Badge from "@/app/components/ui/Badge"
+import Breadcrumbs from "@/app/components/ui/BreadCrumbs"
+import { BADGE_STYLES } from '@/app/utils/typeHelpers'
+import { urlFor } from "@/sanity/lib/image"
+import { relatedBooksQuery, singleBookQuery } from "@/sanity/lib/queries"
+import { sanityFetch } from '@/sanity/lib/utils'
+import { BookType } from "@/types"
+import { Metadata } from "next"
+import Image from "next/image"
+import Link from "next/link"
+import GoBack from "./GoBack"
 
-export async function generateMetadata(
-  { params }: { params: Promise<{ slug: string }> }
-): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
 
   const { slug } = await params
-  const book = getBook(slug)
+  const book = await sanityFetch<BookType>({
+    query: singleBookQuery,
+    params: { slug },
+  })
 
   if (!book) {
     return {
@@ -36,7 +39,7 @@ export async function generateMetadata(
       type: "book",
       images: [
         {
-          url: book.coverImage,
+          url: book.coverImage.asset._ref,
           alt: book.title,
         }
       ],
@@ -46,39 +49,26 @@ export async function generateMetadata(
       card: "summary_large_image",
       title,
       description,
-      images: [book.coverImage],
+      images: [book.coverImage.asset._ref],
     },
   }
 }
 
-function getBook(slug: string) {
-  console.log({ slug });
-
-  return trendingBooks.find(book => book.slug === slug)
-}
-
-function getRelatedBooks(book: BookType) {
-  return trendingBooks
-    .filter(b => book.slug !== b.slug)
-    .map(b => ({
-      book: b,
-      score: b.labels.filter(label => book.labels.includes(label)).length
-    }))
-    .filter(item => item.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 3)
-    .map(item => item.book)
-}
-
 export default async function BookDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const book: BookType | undefined = getBook(slug)
+  const book = await sanityFetch<BookType>({
+    query: singleBookQuery,
+    params: { slug },
+  })
 
   if (!book) {
     return <div>Book not found</div>
   }
 
-  const relatedBooks = getRelatedBooks(book)
+  const relatedBooks = await sanityFetch<BookType[]>({
+    query: relatedBooksQuery,
+    params: { currentSlug: slug },
+  })
   const primaryLabel = book.labels[0]
 
   return (
@@ -86,7 +76,6 @@ export default async function BookDetailsPage({ params }: { params: Promise<{ sl
       <GoBack />
 
       {/* BREADCRUMBS */}
-
       <Breadcrumbs primaryLabel={primaryLabel} title={book.title} />
 
       <div className="flex flex-col md:flex-row justify-center mx-auto">
@@ -94,19 +83,18 @@ export default async function BookDetailsPage({ params }: { params: Promise<{ sl
         {/* COVER */}
         <div className="relative w-full md:w-[340px] min-h-[440px] md:h-auto aspect-2/3 overflow-hidden rounded-md shadow-2xl transition-shadow duration-300 group-hover:shadow-2xl">
           <Image
-            src={book.coverImage}
-            alt={slug}
+            src={book.coverImage ? urlFor(book.coverImage).url() : "/placeholder.jpg"}
+            alt={book.title || "Book Cover"}
             fill
             className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
             priority
           />
-
           {/* BADGES */}
           {book.badges && book.badges.length > 0 && (
             <div className="absolute top-6 left-2 flex flex-col gap-2">
               {book.badges.map((badge, index) => (
                 <Badge
-                  key={badge}
+                  key={`${badge}-${index}`}
                   badge={badge}
                   badgeColor={BADGE_STYLES[badge] ?? "bg-slate-600"}
                   index={index}
@@ -159,19 +147,21 @@ export default async function BookDetailsPage({ params }: { params: Promise<{ sl
         </div>
       </div>
 
+
       {/* DIVIDER 2 */}
-      <div className="border-b border-sky-600/30 my-20" />
+      {relatedBooks.length > 0 && (
+        <div className="border-b border-sky-600/30 my-20" />
+      )}
 
       {/* RELATED BOOKS */}
-
-      {trendingBooks.length > 0 && (
+      {relatedBooks.length > 0 && (
         <section>
           <h2 className="text-2xl font-semibold mb-6">Related books</h2>
 
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {trendingBooks.map((rb) => (
+            {relatedBooks.map((rb) => (
               <BooksCard
-                key={rb.id}
+                key={rb.shortTagline}
                 book={{ ...rb }}
               />
             ))}

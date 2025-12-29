@@ -6,7 +6,7 @@ export type BookType = {
     name: string
     slug: string
   }
-  coverImage: string
+  coverImage: { _type: string, asset: { _ref: string } }
   labels: string[]
   ageGroup?: "Kids" | "Teens" | "Adults"
   badges?: string[]
