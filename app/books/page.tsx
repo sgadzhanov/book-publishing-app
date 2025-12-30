@@ -24,6 +24,12 @@ function sortBooks(books: BookType[], sort?: string) {
   }
 }
 
+function filterBooksByLabel(books: BookType[], label?: string) {
+  if (!label) return books
+
+  return books.filter(book => book.labels.includes(label))
+}
+
 type BooksPageProps = {
   searchParams: Promise<{
     labels?: string
@@ -33,10 +39,11 @@ type BooksPageProps = {
 }
 
 export default async function BooksPage(props: BooksPageProps) {
-  const searchParams = await props.searchParams
-  
-  const sort = searchParams.sort
-  const page = Number(searchParams.page) || 1
+  const { sort: searchParamsSort, page: searchParamsPage, labels: currentLabel } = await props.searchParams
+  console.log({ props: await props.searchParams });
+
+  const sort = searchParamsSort
+  const page = Number(searchParamsPage) || 1
 
   const books: BookType[] = await sanityFetch<BookType[]>({ query: allBooksQuery })
 
@@ -46,10 +53,11 @@ export default async function BooksPage(props: BooksPageProps) {
 
   // Sort
   const sortedBooks = sortBooks(books, sort)
+  const filteredBooks = filterBooksByLabel(sortedBooks, currentLabel)
 
   // Pagination
-  const totalPages = Math.ceil(sortedBooks.length / PAGE_SIZE)
-  const paginatedBooks = sortedBooks.slice(
+  const totalPages = Math.ceil(filteredBooks.length / PAGE_SIZE)
+  const paginatedBooks = filteredBooks.slice(
     (page - 1) * PAGE_SIZE,
     page * PAGE_SIZE
   )
@@ -73,7 +81,7 @@ export default async function BooksPage(props: BooksPageProps) {
       <section className="w-4/5 mx-auto mb-8 flex flex-wrap gap-3">
         <Link
           href="/books"
-          className="px-4 py-2 rounded-full border text-sm hover:bg-slate-100"
+          className={`px-4 py-2 rounded-full border text-sm hover:bg-slate-100 ${!currentLabel ? "bg-sky-200" : ""}`}
         >
           All
         </Link>
@@ -82,7 +90,7 @@ export default async function BooksPage(props: BooksPageProps) {
           <Link
             key={label}
             href={`/books?labels=${encodeURIComponent(label)}`}
-            className="px-4 py-2 rounded-full border text-sm hover:bg-slate-100"
+            className={`px-4 py-2 rounded-full border text-sm hover:bg-slate-100 ${currentLabel === label ? "bg-violet-200/60" : ""}`}
           >
             {label}
           </Link>
