@@ -15,3 +15,17 @@ export type BookType = {
   isFeatured: boolean
   price?: number
 }
+
+export type Post = {
+  _id: string
+  title: string
+  slug: string
+  excerpt?: string
+  publishedAt?: string
+  categories?: string[]
+  coverImage?: any,
+  author?: {
+    name: string
+    slug: string
+  }
+}

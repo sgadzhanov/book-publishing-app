@@ -40,3 +40,19 @@ export const relatedBooksQuery = groq`
     author->{name}
   }
 `
+
+export const postsQuery = groq`
+  *[_type == "post"] | order(publishedAt desc) {
+    _id,
+    title,
+    "slug": slug.current,
+    excerpt,
+    publishedAt,
+    categories,
+    coverImage,
+    author->{
+      name,
+      "slug": slug.current
+    }
+  }
+`

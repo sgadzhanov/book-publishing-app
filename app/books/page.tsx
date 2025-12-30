@@ -40,7 +40,6 @@ type BooksPageProps = {
 
 export default async function BooksPage(props: BooksPageProps) {
   const { sort: searchParamsSort, page: searchParamsPage, labels: currentLabel } = await props.searchParams
-  console.log({ props: await props.searchParams });
 
   const sort = searchParamsSort
   const page = Number(searchParamsPage) || 1

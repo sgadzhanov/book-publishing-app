@@ -2,6 +2,7 @@ import { defineConfig } from "sanity"
 import { structureTool } from "sanity/structure"
 import { book } from "./sanity/schemaTypes/book"
 import { author } from "./sanity/schemaTypes/author"
+import { post } from "@/sanity/schemaTypes/post"
 
 export default defineConfig({
   name: "default",
@@ -15,6 +16,6 @@ export default defineConfig({
   plugins: [structureTool()],
 
   schema: {
-    types: [book, author],
+    types: [book, author, post],
   },
 })
