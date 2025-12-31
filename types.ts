@@ -1,3 +1,5 @@
+import { PortableTextBlock } from "next-sanity"
+
 export type BookType = {
   id: string
   title: string
@@ -22,8 +24,11 @@ export type Post = {
   slug: string
   excerpt?: string
   publishedAt?: string
-  categories?: string[]
-  coverImage?: any,
+  categories?: {
+    title: string
+  }[]
+  coverImage?: any
+  content: PortableTextBlock[]
   author?: {
     name: string
     slug: string

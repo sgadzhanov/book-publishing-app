@@ -80,7 +80,16 @@ export default async function BookDetailsPage({ params }: { params: Promise<{ sl
       <GoBack />
 
       {/* BREADCRUMBS */}
-      <Breadcrumbs primaryLabel={primaryLabel} title={book.title} />
+      <Breadcrumbs
+        items={[
+          { label: "Books", href: "/books" },
+          {
+            label: primaryLabel,
+            href: `/books?label=${encodeURIComponent(primaryLabel)}`
+          },
+          { label: book.title },
+        ]}
+      />
 
       <div className="flex flex-col md:flex-row md:items-center justify-center gap-8 lg:gap-20">
         {/* COVER */}

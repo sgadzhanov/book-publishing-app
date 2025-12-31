@@ -80,7 +80,7 @@ export default async function BooksPage(props: BooksPageProps) {
       <section className="w-4/5 mx-auto mb-8 flex flex-wrap gap-3">
         <Link
           href="/books"
-          className={`px-4 py-2 rounded-full border text-sm hover:bg-slate-100 ${!currentLabel ? "bg-sky-200" : ""}`}
+          className={`px-4 py-2 rounded-full border text-sm hover:bg-slate-100 ${currentLabel ? "hover:bg-slate-100" : "hover:bg-violet-200/60"} ${!currentLabel ? "bg-violet-200/60" : ""}`}
         >
           All
         </Link>
@@ -89,7 +89,7 @@ export default async function BooksPage(props: BooksPageProps) {
           <Link
             key={label}
             href={`/books?labels=${encodeURIComponent(label)}`}
-            className={`px-4 py-2 rounded-full border text-sm hover:bg-slate-100 ${currentLabel === label ? "bg-violet-200/60" : ""}`}
+            className={`px-4 py-2 rounded-full border text-sm ${currentLabel !== label ? "hover:bg-slate-100" : "hover:bg-violet-200/60"} ${currentLabel === label ? "bg-violet-200/60" : ""}`}
           >
             {label}
           </Link>
