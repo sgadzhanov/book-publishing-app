@@ -42,3 +42,15 @@ export type Author = {
   name: string
   slug: string
 }
+
+export type SearchResult =
+  | {
+    _type: "post",
+    title: string,
+    slug: string
+  }
+  | {
+    _type: "book",
+    title: string,
+    slug: string
+  }

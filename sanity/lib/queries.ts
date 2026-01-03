@@ -133,3 +133,26 @@ export const booksByAuthorQuery = groq`
     coverImage
   }
 `
+
+export const searchQuery = groq`
+  *[
+    (
+      _type == "book" &&
+      (
+        title match $q ||
+        shortTagline match $q
+      )
+    ) ||
+    (
+      _type == "post" &&
+      (
+        title match $q ||
+        excerpt match $q
+      )
+    )
+  ] {
+    _type,
+    title,
+    "slug": slug.current
+  }
+`
