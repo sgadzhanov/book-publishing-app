@@ -76,7 +76,7 @@ export default function NavBar() {
 						<form action="/search" className="w-full px-4">
 							<div className="relative">
 								<Search
-									className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400"
+									className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
 									size={18}
 								/>
 								<input

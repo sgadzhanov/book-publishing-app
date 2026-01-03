@@ -3,7 +3,7 @@ import Link from "next/link"
 import { sanityFetch } from '@/sanity/lib/utils'
 import { allBooksQuery } from "@/sanity/lib/queries"
 import BookCard from "../components/BookCard"
-
+import FilterDropdown from "../components/LabelFilter"
 
 export const revalidate = 60
 
@@ -46,9 +46,15 @@ export default async function BooksPage(props: BooksPageProps) {
 
   const books: BookType[] = await sanityFetch<BookType[]>({ query: allBooksQuery })
 
-  const allLabels = Array.from(
-    new Set(books.flatMap(book => book.labels))
-  ).sort()
+  const fetchedLabels = await sanityFetch<string[]>({ query: `array::unique(*[_type == "book"].labels[])` })
+
+  const labelCounts = books.reduce((acc, book) => {
+    book.labels?.forEach(label => {
+      acc[label] = (acc[label] || 0) + 1
+    })
+
+    return acc
+  }, {} as Record<string, number>)
 
   // Sort
   const sortedBooks = sortBooks(books, sort)
@@ -77,23 +83,15 @@ export default async function BooksPage(props: BooksPageProps) {
       </section>
 
       {/* FILTERS */}
-      <section className="w-4/5 mx-auto mb-8 flex flex-wrap gap-3">
-        <Link
-          href="/books"
-          className={`px-4 py-2 rounded-full border text-sm hover:bg-slate-100 ${currentLabel ? "hover:bg-slate-100" : "hover:bg-violet-200/60"} ${!currentLabel ? "bg-violet-200/60" : ""}`}
-        >
-          All
-        </Link>
+      <section className="w-4/5 mx-auto mb-8 gap-3">
 
-        {allLabels.map(label => (
-          <Link
-            key={label}
-            href={`/books?labels=${encodeURIComponent(label)}`}
-            className={`px-4 py-2 rounded-full border text-sm ${currentLabel !== label ? "hover:bg-slate-100" : "hover:bg-violet-200/60"} ${currentLabel === label ? "bg-violet-200/60" : ""}`}
-          >
-            {label}
-          </Link>
-        ))}
+        <FilterDropdown
+          items={fetchedLabels}
+          itemCounts={labelCounts}
+          queryParam="labels"
+          placeholder="Search labels..."
+          currentFilterLabel="Filtered by:"
+        />
       </section>
 
       {/* SORT */}

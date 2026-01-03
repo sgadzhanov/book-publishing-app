@@ -4,6 +4,7 @@ import { sanityFetch } from "@/sanity/lib/utils"
 import { Post } from "@/types"
 import Image from "next/image"
 import Link from "next/link"
+import FilterDropdown from "../components/LabelFilter"
 
 type BlogPageProps = {
   searchParams?: Promise<{
@@ -17,7 +18,23 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   const params = await searchParams
   const currentCategory = params?.category ?? null
 
-  const posts: Post[] = await sanityFetch<Post[]>({ query: postsByCategoryQuery, params: { category: currentCategory } })
+  const posts: Post[] = await sanityFetch<Post[]>({
+    query: postsByCategoryQuery,
+    params: { category: currentCategory }
+  })
+
+  const allCategories = await sanityFetch<string[]>({
+    query: `array::unique(*[_type == "post"].categories[].title) | order(@)`
+  })
+
+  const categoryCounts = posts.reduce((acc, post) => {
+    post.categories?.forEach(cat => {
+      if (cat.title) {
+        acc[cat.title] = (acc[cat.title] || 0) + 1
+      }
+    })
+    return acc
+  }, {} as Record<string, number>)
 
   return (
     <main className="bg-stone-100 text-slate-800">
@@ -31,27 +48,15 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
         </p>
       </section>
 
-      {/* CATEGORY FILTER */}
       {posts.length > 0 && (
-        <section className=" w-4/5 mx-auto mb-12 flex flex-wrap gap-3">
-          <Link
-            href="/blog"
-            className={`px-4 py-2 rounded-full border text-sm ${!currentCategory ? "bg-violet-600 text-white" : "hover:bg-slate-100"}`}
-          >
-            All
-          </Link>
-
-          {Array.from(
-            new Set(posts.flatMap(p => p.categories?.map(c => c.title) ?? []))
-          ).map(cat => (
-            <Link
-              key={cat}
-              href={`/blog?category=${encodeURIComponent(cat)}`}
-              className={`px-4 py-2 rounded-full border text-sm ${currentCategory === cat ? "bg-violet-400 text-white" : "hover:bg-slate-100"}`}
-            >
-              {cat}
-            </Link>
-          ))}
+        <section className="w-4/5 mx-auto mb-12">
+          <FilterDropdown
+            items={allCategories}
+            itemCounts={categoryCounts}
+            queryParam="category"
+            placeholder="Search categories..."
+            currentFilterLabel="Category:"
+          />
         </section>
       )}
 
