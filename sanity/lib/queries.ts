@@ -73,3 +73,23 @@ export const postBySlugQuery = groq`
     },
   }
 `
+
+export const postsByCategoryQuery = groq`
+  *[
+    _type == "post"
+    && (!defined($category) || count(categories[@.title == $category]) > 0)
+  ]
+  | order(publishedAt desc) {
+    _id,
+    title,
+    "slug": slug.current,
+    excerpt,
+    publishedAt,
+    categories[]{ title },
+    coverImage,
+    author->{
+      name,
+      "slug": slug.current
+    }
+  }  
+`

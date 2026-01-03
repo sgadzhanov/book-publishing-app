@@ -64,8 +64,24 @@ export const post = defineType({
     }),
     defineField({
       name: "content",
+      title: "Content",
       type: "array",
-      of: [{ type: "block" }],
+      of: [
+        { type: "block" },
+        {
+          name: "pullQuote",
+          type: "object",
+          fields: [
+            {
+              name: "quote",
+              title: "Quote",
+              type: "text",
+              rows: 3,
+              validation: rule => rule.required(),
+            },
+          ],
+        },
+      ],
     }),
-  ]
+  ],
 })

@@ -42,14 +42,21 @@ jobs:
 
       - name: Send WhatsApp message via Twilio
         run: |
+          # 1. Prepare variables to fit the template
+          # We use the Appointment template: 
+          # "Your appointment is coming up on {{1}} at {{2}}"
+
+          DEPLOY_DATE=${date + '%Y-%m-%d'}
+          DEPLOY_TIME=${date + '%H:%M UTC'}
+          APP_NAME="Book-Publishing-App"
+
           curl --fail -X POST https://api.twilio.com/2010-04-01/Accounts/${{ secrets.TWILIO_ACCOUNT_SID }}/Messages.json \
           --data-urlencode "From=${{ secrets.TWILIO_WHATSAPP_FROM }}" \
           --data-urlencode "To=${{ secrets.TWILIO_WHATSAPP_TO }}" \
-          --data-urlencode "Body=✅ New changes! :)
+          --data-urlencode "Body=Your appointment is coming up on $DEPLOY_DATE at $DEPLOY_TIME.
 
-          🔗 App:
-          https://book-publishing-app-g2v6.vercel.app/
-
-          📝 What changed:
+          🚀 Deploy: $APP_NAME
+          🔗 URL: https://book-publishing-app-g2v6.vercel.app/
+          📝 Changes:
           ${{ steps.commit.outputs.bullets }}" \
-              -u "${{ secrets.TWILIO_ACCOUNT_SID }}:${{ secrets.TWILIO_AUTH_TOKEN }}"
+          -u "${{ secrets.TWILIO_ACCOUNT_SID }}:${{ secrets.TWILIO_AUTH_TOKEN }}"
