@@ -5,7 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { X, Menu } from "lucide-react"
 
-const LINKS = ["Books", "About", "Blog", "Support", "Studio"]
+const LINKS = ["Books", "Authors", "About", "Blog", "Support", "Studio"]
 
 export default function NavBar() {
 	const [isOpen, setIsOpen] = useState(false)

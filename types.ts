@@ -34,3 +34,11 @@ export type Post = {
     slug: string
   }
 }
+
+export type Author = {
+  _id: string
+  bio: string
+  image: { _type: string, asset: { _ref: string, _type: string } },
+  name: string
+  slug: string
+}

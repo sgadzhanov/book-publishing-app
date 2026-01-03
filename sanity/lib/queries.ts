@@ -93,3 +93,43 @@ export const postsByCategoryQuery = groq`
     }
   }  
 `
+
+export const authorsQuery = groq`
+  *[_type == "author"] | order(name asc) {
+    _id,
+    name,
+    "slug": slug.current,
+    bio,
+    image
+  }
+`
+
+export const authorBySlugQuery = groq`
+  *[_type == "author" && slug.current == $slug][0] {
+    _id,
+    name,
+    "slug": slug.current,
+    bio,
+    image
+  }
+`
+
+export const postsByAuthorQuery = groq`
+  *[_type == "post" && author->slug.current == $slug]
+  | order(publishedAt desc) {
+    _id,
+    title,
+    "slug": slug.current,
+    excerpt,
+    publishedAt
+  }
+`
+
+export const booksByAuthorQuery = groq`
+  *[_type == "book" && author->slug.current == $slug] {
+    _id,
+    title,
+    "slug": slug.current,
+    coverImage
+  }
+`
