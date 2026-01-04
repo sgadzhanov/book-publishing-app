@@ -49,7 +49,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
       </section>
 
       {posts.length > 0 && (
-        <section className="w-4/5 mx-auto mb-12">
+        <section className="w-4/5 mx-auto mb-6 sm:mb-8">
           <FilterDropdown
             items={allCategories}
             itemCounts={categoryCounts}

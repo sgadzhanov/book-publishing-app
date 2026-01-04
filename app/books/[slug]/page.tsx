@@ -12,7 +12,6 @@ import Link from "next/link"
 import GoBack from "./GoBack"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-
   const { slug } = await params
   const book = await sanityFetch<BookType>({
     query: singleBookQuery,
@@ -21,13 +20,18 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   if (!book) {
     return {
-      title: "Not found"
+      title: "Book Not Found | Our Publishing House",
+      description: "The book you're looking for could not be found.",
     }
   }
 
-  const title = `${book.title} - ${book.author.name} | Our Publishing House`
+  const title = `${book.title} by ${book.author.name} | Our Publishing House`
 
-  const description = `${book.shortTagline}${book.ageGroup ? `Recommended for ${book.ageGroup.toLowerCase()} readers` : ""}`
+  const description = book.shortTagline
+    ? `${book.shortTagline}${book.ageGroup ? `. Perfect for ${book.ageGroup.toLowerCase()} readers.` : ''}`
+    : `Discover ${book.title} by ${book.author.name}. Available now.`
+
+  const imageUrl = urlFor(book.coverImage).width(1200).height(630).url()
 
   return {
     title,
@@ -39,8 +43,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       type: "book",
       images: [
         {
-          url: book.coverImage.asset._ref,
-          alt: book.title,
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: `Cover of ${book.title} by ${book.author.name}`,
         }
       ],
     },
@@ -49,7 +55,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       card: "summary_large_image",
       title,
       description,
-      images: [book.coverImage.asset._ref],
+      images: [imageUrl],
     },
   }
 }
@@ -62,7 +68,19 @@ export default async function BookDetailsPage({ params }: { params: Promise<{ sl
   })
 
   if (!book) {
-    return <div>Book not found</div>
+    return (
+      <div className="w-full max-w-2xl mx-auto px-4 py-24 text-center">
+        <p className="text-6xl mb-4">📚</p>
+        <h1 className="text-3xl font-bold text-slate-800 mb-4">Book Not Found</h1>
+        <p className="text-slate-600 mb-8">Sorry, we couldn't find the book you're looking for.</p>
+        <Link
+          href="/books"
+          className="inline-block px-6 py-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors"
+        >
+          Browse All Books
+        </Link>
+      </div>
+    )
   }
 
   const relatedBooks = await sanityFetch<BookType[]>({
@@ -85,7 +103,7 @@ export default async function BookDetailsPage({ params }: { params: Promise<{ sl
           { label: "Books", href: "/books" },
           {
             label: primaryLabel,
-            href: `/books?label=${encodeURIComponent(primaryLabel)}`
+            href: `/books?labels=${encodeURIComponent(primaryLabel)}`
           },
           { label: book.title },
         ]}
@@ -101,6 +119,9 @@ export default async function BookDetailsPage({ params }: { params: Promise<{ sl
               fill
               className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
               priority
+              sizes="(max-width: 768px) 100vw, 380px"
+              placeholder="blur"
+              blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0iI2YzZjRmNiIvPjwvc3ZnPg=="
             />
           </div>
           {/* BADGES */}
@@ -131,8 +152,8 @@ export default async function BookDetailsPage({ params }: { params: Promise<{ sl
               {book.labels.map((label: string) => (
                 <Link
                   key={label}
-                  href={`/books?label=${encodeURIComponent(label)}`}
-                  className="font-semibold text-sm px-3 py-2 rounded-full bg-red-100 text-neutral-700 transition-all hover:bg-red-200"
+                  href={`/books?labels=${encodeURIComponent(label)}`}
+                  className="text-sm px-3 py-2 rounded-full bg-indigo-100 text-indigo-800 transition-all hover:bg-indigo-200"
                 >
                   {label}
                 </Link>
@@ -152,21 +173,32 @@ export default async function BookDetailsPage({ params }: { params: Promise<{ sl
 
           {/* META & PRICE */}
           <div className="mt-8 pt-8 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-            <div className="text-slate-600 space-y-2">
+            <div className="space-y-3">
               {book.ageGroup && (
-                <p className="flex items-center gap-2">
-                  <span className="font-bold text-slate-800">Age Group:</span> {book.ageGroup}
-                </p>
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">👥</span>
+                  <div>
+                    <p className="text-xs text-slate-500 uppercase font-semibold">Age Group</p>
+                    <p className="text-slate-800 font-medium">{book.ageGroup}</p>
+                  </div>
+                </div>
               )}
-              <p className="flex items-center gap-2">
-                <span className="font-bold text-slate-800">Published:</span> {book.publishedYear}
-              </p>
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">📅</span>
+                <div>
+                  <p className="text-xs text-slate-500 uppercase font-semibold">Published</p>
+                  <p className="text-slate-800 font-medium">{book.publishedYear}</p>
+                </div>
+              </div>
             </div>
 
-            {book.price && (
-              <div className="px-6 py-4 rounded-xl border border-slate-100 text-center">
-                <span className="block text-sm text-slate-500 uppercase font-bold tracking-widest">Price</span>
-                <p className={`${typeof price === "number" ? "text-2xl" : "text-md"} font-bold text-slate-900`}>
+            {price && (
+              <div className="px-6 py-4 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                <span className="block text-sm text-slate-500 uppercase font-semibold tracking-wide mb-1">Price</span>
+                <p
+                  className="text-3xl font-bold text-slate-900"
+                // className={`${typeof price === "number" ? "text-2xl" : "text-md"} font-bold text-slate-900`}
+                >
                   {typeof price === "number" ? '€' + price.toFixed(2) : price}
                 </p>
               </div>
