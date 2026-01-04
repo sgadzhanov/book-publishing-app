@@ -65,8 +65,8 @@ export default function FilterDropdown({
     <div className="w-full">
       <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
         {/* Search Input */}
-        <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+        <div className="relative flex-1 max-w-md w-full">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
           <input
             type="text"
             placeholder={placeholder}
@@ -87,6 +87,42 @@ export default function FilterDropdown({
               <X className="h-4 w-4" />
             </button>
           )}
+
+          {/* Dropdown Results */}
+          {isOpen && filteredItems.length > 0 && (
+            <>
+              {/* Backdrop */}
+              <div
+                className="fixed inset-0 z-10"
+                onClick={() => setIsOpen(false)}
+              />
+
+              {/* Dropdown */}
+              <div className="absolute z-20 w-full left-0 mt-1 bg-white border rounded-lg shadow-lg max-h-80 overflow-y-auto">
+                {filteredItems.map(item => (
+                  <button
+                    key={item}
+                    onClick={() => handleSelect(item)}
+                    className={`w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center justify-between text-sm ${currentValue === item ? 'bg-violet-50 text-violet-700 font-medium' : ''
+                      }`}
+                  >
+                    <span>{item}</span>
+                    {itemCounts && (
+                      <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
+                        {itemCounts[item]}
+                      </span>
+                    )}
+                  </button>
+                ))}
+
+                {searchTerm && filteredItems.length === 0 && (
+                  <div className="px-4 py-3 text-sm text-gray-500 text-center">
+                    No results found
+                  </div>
+                )}
+              </div>
+            </>
+          )}
         </div>
       </div>
 
@@ -105,42 +141,6 @@ export default function FilterDropdown({
             </button>
           </span>
         </div>
-      )}
-
-      {/* Dropdown Results */}
-      {isOpen && filteredItems.length > 0 && (
-        <>
-          {/* Backdrop */}
-          <div
-            className="fixed inset-0 z-10"
-            onClick={() => setIsOpen(false)}
-          />
-
-          {/* Dropdown */}
-          <div className="absolute z-20 w-full max-w-md mt-1 bg-white border rounded-lg shadow-lg max-h-80 overflow-y-auto">
-            {filteredItems.map(item => (
-              <button
-                key={item}
-                onClick={() => handleSelect(item)}
-                className={`w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center justify-between text-sm ${currentValue === item ? 'bg-violet-50 text-violet-700 font-medium' : ''
-                  }`}
-              >
-                <span>{item}</span>
-                {itemCounts && (
-                  <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
-                    {itemCounts[item]}
-                  </span>
-                )}
-              </button>
-            ))}
-
-            {searchTerm && filteredItems.length === 0 && (
-              <div className="px-4 py-3 text-sm text-gray-500 text-center">
-                No results found
-              </div>
-            )}
-          </div>
-        </>
       )}
     </div>
   )
