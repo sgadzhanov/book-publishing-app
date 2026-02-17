@@ -1,0 +1,259 @@
+{
+  "navigation": {
+    "books": "Books",
+    "authors": "Authors",
+    "about": "About",
+    "blog": "Blog",
+    "support": "Support",
+    "studio": "Studio",
+    "search": "Search...",
+    "searchMobile": "Search books & blog...",
+    "signIn": "Sign in",
+    "comingSoon": "Coming soon!"
+  },
+  "footer": {
+    "brandName": "Your Publishing House",
+    "tagline": "Stories that inspire, educate, and spark imagination for readers of all ages.",
+    "explore": "Explore",
+    "contact": "Contact",
+    "books": "Books",
+    "kids": "Kids",
+    "popular": "Popular",
+    "authorsEvents": "Authors & Events",
+    "quizzes": "Quizzes",
+    "phone": "+359 888 777 666",
+    "email": "our-mail@mail.com",
+    "location": "Sofia, Bulgaria",
+    "findUsOnline": "Find us online",
+    "copyright": "© {year} OUR PUBLISHING HOUSE NAME. All rights reserved."
+  },
+  "hero": {
+    "title": "Read. Imagine. Connect. Repeat.",
+    "description": "Browse our handpicked books—new releases, beloved classics, and hidden gems. Find your next great read in a welcoming space for all ages.",
+    "discoverBooks": "Discover books",
+    "exploreMore": "Explore more",
+    "leftDecor": "Left decor",
+    "rightDecor": "Right decor"
+  },
+  "trustedBy": {
+    "title": "Trusted by top publishing partners",
+    "description": "Partnering with industry leaders to deliver exceptional books and innovative publishing solutions for every reader.",
+    "schools": "Schools & universities",
+    "bookstores": "Bookstores",
+    "agency": "Agency partners",
+    "print": "Print specialists",
+    "online": "Online platforms",
+    "libraries": "Public libraries"
+  },
+  "picksForEveryone": {
+    "title": "Fresh picks for every reader",
+    "bookCircleTitle": "Start your own book circle",
+    "bookCircleDescription": "Simple steps to launch and enjoy your first group read.",
+    "meetAuthorTitle": "Meet author Jamie Rivera",
+    "meetAuthorDescription": "Jamie discusses writing journeys and sparking young imaginations.",
+    "topBooksTitle": "Top 5 new books to try",
+    "topBooksDescription": "Explore standout releases and staff favorites this month.",
+    "familyNightTitle": "Host a family reading night",
+    "familyNightDescription": "Fun, easy activities to bring stories to life at home"
+  },
+  "findYourBook": {
+    "title": "Find your next favorite book",
+    "description": "Curated picks, events, and more await.",
+    "browseNow": "Browse now"
+  },
+  "readersTrustUs": {
+    "title": "Readers trust our book picks",
+    "reviews": {
+      "taylor": {
+        "text": "Every recommendation feels handpicked. I've found new favorites and always trust their suggestions for my classroom.",
+        "author": "Taylor Kim",
+        "role": "Elementary Teacher"
+      },
+      "jordan": {
+        "text": "Finding books for my kids is effortless. The reviews and age guides make choosing stories simple and enjoyable.",
+        "author": "Jordan Patel",
+        "role": "Parent & Book Enthusiast"
+      },
+      "morgan": {
+        "text": "Thoughtful curation and inviting design. Exploring new genres here is always a pleasure.",
+        "author": "Morgan Ellis",
+        "role": "Literacy Specialist"
+      },
+      "avery": {
+        "text": "Recommendations are always on point. I've built my library and shared great reads with friends thanks to this site.",
+        "author": "Avery Lin",
+        "role": "Community Librarian"
+      }
+    }
+  },
+  "contactUs": {
+    "label": "CONTACT US",
+    "title": "Let's start the conversation",
+    "reachDirectly": "Reach out directly",
+    "findUsOnline": "Find us online"
+  },
+  "contactForm": {
+    "fullName": "Full Name",
+    "yourName": "Your name",
+    "emailAddress": "Email Address",
+    "emailPlaceholder": "email@website.com",
+    "message": "Message",
+    "messagePlaceholder": "Type your message...",
+    "sendMessage": "Send message"
+  },
+  "faq": {
+    "title": "Answers for curious readers",
+    "description": "Quick help for your book questions, submissions, and events.",
+    "questions": {
+      "submit": {
+        "question": "How can I submit my book?",
+        "answer": "Visit our submissions page and upload your manuscript as a PDF or Word file. Our editors will review and respond within 4–6 weeks."
+      },
+      "newBooks": {
+        "question": "Where are new books listed?",
+        "answer": "Browse the homepage or Books section for the latest releases. Filter by category, age, or popularity to find new titles."
+      },
+      "events": {
+        "question": "Do you host author or reader events?",
+        "answer": "We offer author talks, signings, and workshops. See the Authors & Events page for upcoming dates and details."
+      },
+      "newsletter": {
+        "question": "How do I get the newsletter?",
+        "answer": "Subscribe at the bottom of any page to receive updates on new books, events, and exclusive content."
+      }
+    }
+  },
+  "about": {
+    "heroTitle": "We believe stories shape the way we see the world.",
+    "heroDescription": "We are an independent publishing house dedicated to discovering, nurturing, and sharing meaningful stories for readers of all ages. From children's books to thoughtful fiction, we publish with care, intention, and a deep respect for storytelling.",
+    "missionTitle": "Our mission & values",
+    "whatWePublish": "What we publish",
+    "childrensBooks": "Children's Books",
+    "literaryFiction": "Literary Fiction",
+    "youngAdult": "Young Adult",
+    "nonFiction": "Thoughtful Non-Fiction",
+    "philosophyTitle": "Our philosophy",
+    "philosophyDescription": "Publishing is not about speed or volume — it's about trust. We build long-term relationships with authors, editors, and readers, believing that meaningful books deserve time, attention, and care.",
+    "workWithUs": "Want to work with us?",
+    "getInTouch": "Get in touch",
+    "values": {
+      "storyFirst": {
+        "title": "Story first",
+        "description": "We believe great books start with honest, well-crafted stories that resonate long after the last page."
+      },
+      "inclusiveVoices": {
+        "title": "Inclusive voices",
+        "description": "We champion diverse perspectives and believe publishing should reflect the richness of the world we live in"
+      },
+      "craftedWithCare": {
+        "title": "Crafted with care",
+        "description": "From manuscript to final print, every detail matters. We work closely with authors to do their stories justice."
+      }
+    }
+  },
+  "contact": {
+    "heroTitle": "Let's get in touch.",
+    "heroDescription": "Whether you're a reader, an author, or a potential partner, we'd love to hear from you. Send us a message and we'll get back to you as soon as possible.",
+    "sendMessage": "Send us a message",
+    "reachDirectly": "Reach us directly",
+    "findUsOnline": "Find us online",
+    "whatToContact": "What can you contact us about?",
+    "topics": {
+      "general": "General questions about our books or authors",
+      "events": "Upcoming events and collaborations",
+      "feedback": "Feedback or suggestions",
+      "press": "Press and partnership inquiries"
+    }
+  },
+  "books": {
+    "title": "Our Books",
+    "description": "Explore our curated collection of books for readers of all ages — from imaginative children's stories to thoughtful fiction and non-fiction.",
+    "searchLabels": "Search labels...",
+    "filteredBy": "Filtered by:",
+    "sortBy": "Sort by:",
+    "newest": "Newest",
+    "priceAsc": "Price ↑",
+    "priceDesc": "Price ↓",
+    "titleSort": "Title",
+    "showing": "Showing {current} of {total} books",
+    "inLabel": "in",
+    "noBooks": "No books found",
+    "noBooksSuggestion": "Try adjusting your filters or browse all books",
+    "clearFilters": "Clear filters",
+    "previous": "← Previous",
+    "next": "Next →",
+    "relatedBooks": "Related books",
+    "ageGroup": "Age Group",
+    "published": "Published",
+    "price": "Price",
+    "contactForPrice": "Contact for price",
+    "noDescription": "No description available.",
+    "notFound": "Book Not Found",
+    "notFoundDescription": "Sorry, we couldn't find the book you're looking for.",
+    "browseAll": "Browse All Books",
+    "breadcrumb": "Books"
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "Thoughts, stories, and behind-the-scenes insights from our authors, editors, and publishing team.",
+    "searchCategories": "Search categories...",
+    "category": "Category:",
+    "noPosts": "No posts found in this category.",
+    "by": "By",
+    "minRead": "min read",
+    "notFound": "Post not found",
+    "breadcrumb": "Blog"
+  },
+  "search": {
+    "title": "Search",
+    "placeholder": "Search books and blog posts...",
+    "emptyState": "Enter a search term to find books and blog posts.",
+    "found": "Found",
+    "result": "result",
+    "results": "results",
+    "for": "for",
+    "noResults": "No results found.",
+    "noResultsSuggestion": "Try using different keywords or check your spelling.",
+    "booksSection": "Books",
+    "bookBadge": "Book",
+    "blogSection": "Blog Posts",
+    "postBadge": "Post"
+  },
+  "support": {
+    "heroTitle": "We're here to help.",
+    "heroDescription": "Whether you have a question about our books, events, quizzes, or your account, our support team is happy to assist you.",
+    "howCanWeHelp": "How can we help you?",
+    "topics": {
+      "account": "Account & Profile",
+      "books": "Books & Content",
+      "quizzes": "Quizzes",
+      "events": "Events",
+      "technical": "Technical Issues",
+      "general": "General Questions"
+    },
+    "findAnswers": "Find answers and guidance related to {topic}.",
+    "stillNeedHelp": "Still need help?",
+    "contactSupport": "Contact support"
+  },
+  "authors": {
+    "title": "Our Authors",
+    "notFound": "Author not found",
+    "booksSection": "Books",
+    "blogSection": "Blog Posts",
+    "emptyState": "No books or blog posts yet."
+  },
+  "common": {
+    "back": "BACK",
+    "noResultsFound": "No results found",
+    "clearFilter": "Clear filter",
+    "removeFilter": "Remove filter",
+    "featuredBooks": "Featured Books"
+  },
+  "metadata": {
+    "bookNotFoundTitle": "Book Not Found | Our Publishing House",
+    "bookNotFoundDescription": "The book you're looking for could not be found.",
+    "perfectFor": "Perfect for {ageGroup} readers.",
+    "discoverBook": "Discover {title} by {author}. Available now.",
+    "postNotFound": "Post not found"
+  }
+}

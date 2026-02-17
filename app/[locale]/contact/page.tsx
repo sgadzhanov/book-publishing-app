@@ -1,6 +1,16 @@
-import ContactUsForm from "../components/forms/contact-us/ContactUsForm";
+import ContactUsForm from "../../components/forms/contact-us/ContactUsForm";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
-export default function ContactPage() {
+type Props = {
+  params: Promise<{ locale: string }>
+}
+
+export default async function ContactPage({ params }: Props) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations("contact")
+  const tFooter = await getTranslations("footer")
+
   return (
     <main className="bg-white text-slate-800">
 
@@ -8,12 +18,10 @@ export default function ContactPage() {
       <section className="w-4/5 mx-auto py-24">
         <div className="max-w-3xl">
           <h1 className="text-5xl font-semibold leading-tight mb-6">
-            Let’s get in touch.
+            {t("heroTitle")}
           </h1>
           <p className="text-lg text-slate-600 leading-relaxed">
-            Whether you’re a reader, an author, or a potential partner,
-            we’d love to hear from you. Send us a message and we’ll get back
-            to you as soon as possible.
+            {t("heroDescription")}
           </p>
         </div>
       </section>
@@ -25,7 +33,7 @@ export default function ContactPage() {
           {/* LEFT — FORM */}
           <div>
             <h2 className="text-3xl font-semibold mb-8">
-              Send us a message
+              {t("sendMessage")}
             </h2>
             <ContactUsForm />
           </div>
@@ -35,7 +43,7 @@ export default function ContactPage() {
 
             <div>
               <h3 className="text-xl font-semibold mb-4">
-                Reach us directly
+                {t("reachDirectly")}
               </h3>
 
               <ul className="flex flex-col gap-4 text-slate-700">
@@ -44,10 +52,10 @@ export default function ContactPage() {
                     call
                   </span>
                   <a
-                    href="+359 888 777 666"
+                    href="tel:+359888777666"
                     className="hover:text-violet-600 transition-colors"
                   >
-                    +359 888 777 666
+                    {tFooter("phone")}
                   </a>
                 </li>
 
@@ -56,10 +64,10 @@ export default function ContactPage() {
                     mail
                   </span>
                   <a
-                    href="our-mail@mail.com"
+                    href="mailto:our-mail@mail.com"
                     className="hover:text-violet-600 transition-colors"
                   >
-                    our-mail@mail.com
+                    {tFooter("email")}
                   </a>
                 </li>
 
@@ -68,7 +76,7 @@ export default function ContactPage() {
                     location_on
                   </span>
                   <span>
-                    Sofia, Bulgaria
+                    {tFooter("location")}
                   </span>
                 </li>
               </ul>
@@ -77,7 +85,7 @@ export default function ContactPage() {
             {/* SOCIAL */}
             <div>
               <h3 className="text-xl font-semibold mb-4">
-                Find us online
+                {t("findUsOnline")}
               </h3>
 
               <div className="flex gap-4">
@@ -111,13 +119,13 @@ export default function ContactPage() {
       <section className="py-24">
         <div className="w-4/5 mx-auto max-w-3xl">
           <h2 className="text-3xl font-semibold mb-6">
-            What can you contact us about?
+            {t("whatToContact")}
           </h2>
           <ul className="list-disc pl-6 text-slate-600 space-y-2">
-            <li>General questions about our books or authors</li>
-            <li>Upcoming events and collaborations</li>
-            <li>Feedback or suggestions</li>
-            <li>Press and partnership inquiries</li>
+            <li>{t("topics.general")}</li>
+            <li>{t("topics.events")}</li>
+            <li>{t("topics.feedback")}</li>
+            <li>{t("topics.press")}</li>
           </ul>
         </div>
       </section>

@@ -1,10 +1,11 @@
 import { BookType } from "@/types"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { sanityFetch } from '@/sanity/lib/utils'
 import { allBooksQuery } from "@/sanity/lib/queries"
-import BookCard from "../components/BookCard"
-import FilterDropdown from "../components/LabelFilter"
-import SortLinkChip from "../components/SortLinkChip"
+import BookCard from "../../components/BookCard"
+import FilterDropdown from "../../components/LabelFilter"
+import SortLinkChip from "../../components/SortLinkChip"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 
 export const revalidate = 60
 
@@ -32,6 +33,7 @@ function filterBooksByLabel(books: BookType[], label?: string) {
 }
 
 type BooksPageProps = {
+  params: Promise<{ locale: string }>
   searchParams: Promise<{
     labels?: string
     sort?: string
@@ -40,6 +42,10 @@ type BooksPageProps = {
 }
 
 export default async function BooksPage(props: BooksPageProps) {
+  const { locale } = await props.params
+  setRequestLocale(locale)
+  const t = await getTranslations("books")
+
   const { sort: searchParamsSort, page: searchParamsPage, labels: currentLabel } = await props.searchParams
 
   const sort = searchParamsSort
@@ -68,6 +74,13 @@ export default async function BooksPage(props: BooksPageProps) {
     page * PAGE_SIZE
   )
 
+  const sortOptions = [
+    ["newest", t("newest")],
+    ["price-asc", t("priceAsc")],
+    ["price-desc", t("priceDesc")],
+    ["title", t("titleSort")],
+  ]
+
   return (
     <main className="bg-white text-slate-800">
 
@@ -75,12 +88,10 @@ export default async function BooksPage(props: BooksPageProps) {
       <section className="w-4/5 mx-auto pt-16 sm:py-12">
         <div className="max-w-3xl">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-slate-900">
-            Our Books
+            {t("title")}
           </h1>
           <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-            Explore our curated collection of books for readers of all ages —
-            from imaginative children’s stories to thoughtful fiction and
-            non-fiction.
+            {t("description")}
           </p>
         </div>
       </section>
@@ -93,21 +104,16 @@ export default async function BooksPage(props: BooksPageProps) {
           items={fetchedLabels}
           itemCounts={labelCounts}
           queryParam="labels"
-          placeholder="Search labels..."
-          currentFilterLabel="Filtered by:"
+          placeholder={t("searchLabels")}
+          currentFilterLabel={t("filteredBy")}
         />
       </section>
 
       {/* SORT */}
       <section className="w-4/5 mx-auto mb-12">
         <div className="flex flex-wrap items-center gap-4 text-sm">
-          <span className="text-slate-500 font-medium">Sort by:</span>
-          {[
-            ["newest", "Newest"],
-            ["price-asc", "Price ↑"],
-            ["price-desc", "Price ↓"],
-            ["title", "Title"],
-          ].map(([key, label]) => (
+          <span className="text-slate-500 font-medium">{t("sortBy")}</span>
+          {sortOptions.map(([key, label]) => (
             <SortLinkChip
               key={key}
               to={key}
@@ -121,8 +127,8 @@ export default async function BooksPage(props: BooksPageProps) {
       {/* Active Results Count */}
       {filteredBooks.length > 0 && (
         <div className="w-4/5 mx-auto mb-6 text-sm text-slate-600">
-          Showing {paginatedBooks.length} of {filteredBooks.length} books
-          {currentLabel && <span>in <strong>{currentLabel}</strong></span>}
+          {t("showing", { current: paginatedBooks.length, total: filteredBooks.length })}
+          {currentLabel && <span> {t("inLabel")} <strong>{currentLabel}</strong></span>}
         </div>
       )}
 
@@ -137,14 +143,14 @@ export default async function BooksPage(props: BooksPageProps) {
         ) : (
           <div className="text-center py-16">
             <p className="text-slate-400 text-lg mb-4">📚</p>
-            <p className="text-slate-600 text-lg font-medium mb-2">No books found</p>
-            <p className="text-slate-500">Try adjusting your filters or browse all books</p>
+            <p className="text-slate-600 text-lg font-medium mb-2">{t("noBooks")}</p>
+            <p className="text-slate-500">{t("noBooksSuggestion")}</p>
             {currentLabel && (
               <Link
                 href="/books"
                 className="inline-block mt-4 text-violet-600 hover:text-violet-700 underline"
               >
-                Clear filters
+                {t("clearFilters")}
               </Link>
             )}
           </div>
@@ -160,7 +166,7 @@ export default async function BooksPage(props: BooksPageProps) {
               href={`/books?page=${page - 1}${sort ? `&sort=${sort}` : ""}${currentLabel ? `&labels=${currentLabel}` : ""}#books-filters`}
               className="px-4 py-2 rounded border hover:bg-slate-100 flex items-center gap-1"
             >
-              ← Previous
+              {t("previous")}
             </Link>
           )}
 
@@ -183,7 +189,7 @@ export default async function BooksPage(props: BooksPageProps) {
               href={`/books?page=${page + 1}${sort ? `&sort=${sort}` : ""}${currentLabel ? `&labels=${currentLabel}` : ""}#books-filters`}
               className="px-4 py-2 rounded border hover:bg-slate-100 flex items-center gap-1"
             >
-              Next →
+              {t("next")}
             </Link>
           )}
         </section>

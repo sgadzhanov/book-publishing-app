@@ -7,13 +7,15 @@ import { post } from "@/sanity/schemaTypes/post"
 export default defineConfig({
   name: "default",
   title: "Book Publisher Admin",
-  
+
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
-  
+
   basePath: "/studio",
 
-  plugins: [structureTool()],
+  plugins: [
+    structureTool(),
+  ],
 
   schema: {
     types: [book, author, post],

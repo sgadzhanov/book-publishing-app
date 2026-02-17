@@ -1,16 +1,19 @@
 import Image from "next/image";
 import ContactUsIcon from "../icons/ContactUsIcon";
 import ContactUsForm from "../forms/contact-us/ContactUsForm";
+import { useTranslations } from "next-intl";
 
 export default function ContactUs() {
+  const t = useTranslations("contactUs")
+
   return (
     <div className="flex flex-col md:flex-row bg-violet-50 gap-12 px-6 lg:px-12 py-20 w-full mx-auto">
 
       {/* left side - form */}
       <div className="flex-1">
         <div className="flex flex-col gap-8">
-          <h2 className="text-sm text-slate-500">CONTACT US</h2>
-          <h1 className="text-4xl text-slate-800 mb-12">Let’s start the conversation</h1>
+          <h2 className="text-sm text-slate-500">{t("label")}</h2>
+          <h1 className="text-4xl text-slate-800 mb-12">{t("title")}</h1>
         </div>
         <ContactUsForm />
       </div>
@@ -21,7 +24,7 @@ export default function ContactUs() {
         <div className="relative h-[400px] rounded-t-xl overflow-hidden">
           <Image
             src="/images/contact-form.avif"
-            alt="Contact us"
+            alt={t("title")}
             fill
             className="object-cover"
           />
@@ -37,7 +40,7 @@ export default function ContactUs() {
               </span>
             </div>
             <div>
-              <p className="text-slate-500">Reach out directly</p>
+              <p className="text-slate-500">{t("reachDirectly")}</p>
               <p className="font-medium text-slate-800">
                 +359 888 777 666
               </p>

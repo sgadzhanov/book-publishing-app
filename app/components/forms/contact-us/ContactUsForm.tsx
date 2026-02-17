@@ -1,30 +1,35 @@
+"use client"
 
-export default function   ContactUsForm() {
+import { useTranslations } from "next-intl"
+
+export default function ContactUsForm() {
+  const t = useTranslations("contactForm")
+
   return (
     <form action="" className="flex flex-col gap-4">
       <div className="flex gap-4 max-w-xl justify-between">
         <InputField
-          label="Full Name"
+          label={t("fullName")}
           type="text"
           name="name"
           id="name"
-          placeholder="Your name"
+          placeholder={t("yourName")}
         />
         <InputField
-          label="Email Address"
+          label={t("emailAddress")}
           type="text"
           name="email"
           id="email"
-          placeholder="email@website.com"
+          placeholder={t("emailPlaceholder")}
         />
       </div>
       <div className="flex flex-col max-w-xl">
         <InputField
-          label="Message"
+          label={t("message")}
           type="textarea"
           name="message"
           id="message"
-          placeholder="Type your message..."
+          placeholder={t("messagePlaceholder")}
         />
 
       </div>
@@ -32,7 +37,7 @@ export default function   ContactUsForm() {
         type="button"
         className='w-full md:max-w-1/2 text-slate-50 bg-indigo-400 hover:bg-indigo-300 border border-violet-200 hover:shadow-xl cursor-pointer transition p-4 text-lg'
       >
-        Send message
+        {t("sendMessage")}
       </button>
     </form>
   )

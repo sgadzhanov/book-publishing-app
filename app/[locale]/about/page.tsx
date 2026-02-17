@@ -1,7 +1,23 @@
-import Image from "next/image"
-import MissionAndValues from "../components/about/MissionAndValues"
+import MissionAndValues from "../../components/about/MissionAndValues"
+import { Link } from "@/i18n/navigation"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 
-export default function AboutPage() {
+type Props = {
+  params: Promise<{ locale: string }>
+}
+
+export default async function AboutPage({ params }: Props) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations("about")
+
+  const categories = [
+    t("childrensBooks"),
+    t("literaryFiction"),
+    t("youngAdult"),
+    t("nonFiction")
+  ]
+
   return (
     <main className="bg-white text-slate-800">
 
@@ -9,13 +25,10 @@ export default function AboutPage() {
       <section className="w-4/5 mx-auto py-24">
         <div className="max-w-3xl">
           <h1 className="text-5xl font-semibold leading-tight mb-6">
-            We believe stories shape the way we see the world.
+            {t("heroTitle")}
           </h1>
           <p className="text-lg text-slate-600 leading-relaxed">
-            We are an independent publishing house dedicated to discovering,
-            nurturing, and sharing meaningful stories for readers of all ages.
-            From children’s books to thoughtful fiction, we publish with care,
-            intention, and a deep respect for storytelling.
+            {t("heroDescription")}
           </p>
         </div>
       </section>
@@ -27,16 +40,11 @@ export default function AboutPage() {
       <section className="py-24">
         <div className="w-4/5 mx-auto">
           <h2 className="text-3xl font-semibold mb-12">
-            What we publish
+            {t("whatWePublish")}
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              "Children’s Books",
-              "Literary Fiction",
-              "Young Adult",
-              "Thoughtful Non-Fiction"
-            ].map((category) => (
+            {categories.map((category) => (
               <div
                 key={category}
                 className="border border-slate-200 rounded-xl p-6 hover:shadow-md transition-shadow"
@@ -54,12 +62,10 @@ export default function AboutPage() {
       <section className="bg-slate-900 text-slate-200 py-24">
         <div className="w-4/5 mx-auto max-w-3xl">
           <h2 className="text-3xl font-semibold text-white mb-6">
-            Our philosophy
+            {t("philosophyTitle")}
           </h2>
           <p className="text-lg leading-relaxed text-slate-300">
-            Publishing is not about speed or volume — it’s about trust.
-            We build long-term relationships with authors, editors, and readers,
-            believing that meaningful books deserve time, attention, and care.
+            {t("philosophyDescription")}
           </p>
         </div>
       </section>
@@ -68,9 +74,9 @@ export default function AboutPage() {
       <section className="py-24">
         <div className="w-4/5 mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
           <h2 className="text-3xl font-semibold">
-            Want to work with us?
+            {t("workWithUs")}
           </h2>
-          <a
+          <Link
             href="/contact"
             className="
               inline-flex items-center gap-2
@@ -82,8 +88,8 @@ export default function AboutPage() {
             <span className="material-symbols-outlined">
               mail
             </span>
-            Get in touch
-          </a>
+            {t("getInTouch")}
+          </Link>
         </div>
       </section>
 

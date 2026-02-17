@@ -1,16 +1,24 @@
 import { authorsQuery } from "@/sanity/lib/queries"
 import { sanityFetch } from "@/sanity/lib/utils"
-import { Author } from "@/types";
-import Link from "next/link";
+import { Author } from "@/types"
+import { Link } from "@/i18n/navigation"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 
+type Props = {
+  params: Promise<{ locale: string }>
+}
 
-export default async function AuthorsPage() {
+export default async function AuthorsPage({ params }: Props) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations("authors")
+
   const authors = await sanityFetch<Author[]>({ query: authorsQuery })
 
   return (
     <main className="w-4/5 lg:w-3/4 mx-auto py-24">
       <h1 className="text-4xl font-semibold mb-12">
-        Our Authors
+        {t("title")}
       </h1>
 
       <ul className="grid grid-cols-1 md:grid-cols-2 gap-8">

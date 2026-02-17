@@ -2,13 +2,28 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { X, Menu, Search } from "lucide-react"
+import { useTranslations } from "next-intl"
+import LanguageSwitcher from "./LanguageSwitcher"
 
-const LINKS = ["Books", "Authors", "About", "Blog", "Support", "Studio"]
+type NavLink = {
+	key: string
+	href: string
+}
+
+const LINKS: NavLink[] = [
+	{ key: "books", href: "/books" },
+	{ key: "authors", href: "/authors" },
+	{ key: "about", href: "/about" },
+	{ key: "blog", href: "/blog" },
+	{ key: "support", href: "/support" },
+	{ key: "studio", href: "/studio"},
+]
 
 export default function NavBar() {
 	const [isOpen, setIsOpen] = useState(false)
+	const t = useTranslations("navigation")
 
 	return (
 		<nav className="relative bg-fuchsia-50 px-6 py-4">
@@ -28,8 +43,8 @@ export default function NavBar() {
 
 				{/* DESKTOP MENU */}
 				<ul className="hidden lg:flex items-center gap-8 text-slate-700 text-lg">
-					{LINKS.map((item) => (
-						<LinkItem item={item} key={item} />
+					{LINKS.map((link) => (
+						<LinkItem key={link.key} link={link} label={t(link.key)} />
 					))}
 				</ul>
 
@@ -39,25 +54,28 @@ export default function NavBar() {
 						<input
 							type="search"
 							name="q"
-							placeholder="Search..."
+							placeholder={t("search")}
 							className="w-64 rounded-lg border border-slate-300 bg-white pl-10 pr-4 py-2.5 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-200 focus:border-transparent transition-shadow"
 						/>
 						<button
 							type="submit"
 							className="absolute left-5 top-1/2 -translate-1/2 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
-							aria-label="Search"
+							aria-label={t("search")}
 						>
 							<Search size={18} />
 						</button>
 					</div>
 				</form>
 
+				{/* LANGUAGE SWITCHER */}
+				<LanguageSwitcher />
+
 				{/* DESKTOP SIGN IN */}
 				<button
 					className="hidden lg:block bg-[#FFA273] hover:bg-orange-400 transition-colors py-3 px-8 font-bold cursor-pointer rounded-lg shadow-sm hover:shadow-md shrink-0"
-					onClick={() => alert("Coming soon!")}
+					onClick={() => alert(t("comingSoon"))}
 				>
-					Sign in
+					{t("signIn")}
 				</button>
 
 				<button
@@ -82,20 +100,22 @@ export default function NavBar() {
 								<input
 									type="search"
 									name="q"
-									placeholder="Search books & blog..."
+									placeholder={t("searchMobile")}
 									className="w-full rounded-md border border-slate-300 bg-white pl-11 pr-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-200 focus:border-transparent"
 								/>
 							</div>
 						</form>
 						{/* MOBILE LINKS */}
 						<ul className="flex flex-col items-center gap-6 text-slate-700 w-full">
-							{LINKS.map((item) => <LinkItem item={item} setIsOpen={setIsOpen} key={item} />)}
+							{LINKS.map((link) => (
+								<LinkItem key={link.key} link={link} label={t(link.key)} setIsOpen={setIsOpen} />
+							))}
 						</ul>
 						<button
 							className="bg-[#FFA273] hover:bg-orange-400 transition-colors py-3 px-10 font-bold rounded-lg shadow-sm hover:shadow-md"
-							onClick={() => alert("Coming soon!")}
+							onClick={() => alert(t("comingSoon"))}
 						>
-							Sign in
+							{t("signIn")}
 						</button>
 					</div>
 				</div>
@@ -104,9 +124,9 @@ export default function NavBar() {
 	)
 }
 
-function LinkItem({ item, setIsOpen }: { item: string, setIsOpen?: (isOpen: boolean) => void }) {
+function LinkItem({ link, label, setIsOpen }: { link: NavLink, label: string, setIsOpen?: (isOpen: boolean) => void }) {
 	return (
-		<Link href={`/${item.toLowerCase()}`}>
+		<Link href={link.href}>
 			<li
 				className="cursor-pointer font-semibold transition-colors hover:text-amber-600"
 				onClick={() => {
@@ -114,7 +134,7 @@ function LinkItem({ item, setIsOpen }: { item: string, setIsOpen?: (isOpen: bool
 					setIsOpen(false)
 				}}
 			>
-				{item}
+				{label}
 			</li>
 		</Link>
 	)

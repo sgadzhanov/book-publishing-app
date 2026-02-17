@@ -3,12 +3,19 @@ import { authorBySlugQuery, booksByAuthorQuery, postsByAuthorQuery } from "@/san
 import { sanityFetch } from "@/sanity/lib/utils"
 import { Author, BookType, Post } from "@/types"
 import Image from "next/image"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 
 export const revalidate = 60
 
-export default async function AuthorPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params
+type Props = {
+  params: Promise<{ locale: string; slug: string }>
+}
+
+export default async function AuthorPage({ params }: Props) {
+  const { locale, slug } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations("authors")
 
   const author = await sanityFetch<Author>({
     query: authorBySlugQuery,
@@ -18,7 +25,7 @@ export default async function AuthorPage({ params }: { params: Promise<{ slug: s
   if (!author) {
     return (
       <div className="w-4/5 mx-auto py-24 text-center">
-        <p className="text-slate-600 text-lg">Author not found</p>
+        <p className="text-slate-600 text-lg">{t("notFound")}</p>
       </div>
     )
   }
@@ -64,7 +71,7 @@ export default async function AuthorPage({ params }: { params: Promise<{ slug: s
       {books.length > 0 && (
         <section className="mb-12 sm:mb-16">
           <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-slate-900 border-b border-slate-200 pb-3">
-            Books
+            {t("booksSection")}
             <span className="ml-2 text-base font-normal text-slate-500">({books.length})</span>
           </h2>
           <div className="grid gap-3 sm:gap-4">
@@ -87,7 +94,7 @@ export default async function AuthorPage({ params }: { params: Promise<{ slug: s
       {posts.length > 0 && (
         <section className="mb-12">
           <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-slate-900 border-b border-slate-200 pb-3">
-            Blog Posts
+            {t("blogSection")}
             <span className="ml-2 text-base font-normal text-slate-500">({posts.length})</span>
           </h2>
           <div className="grid gap-3 sm:gap-4">
@@ -109,7 +116,7 @@ export default async function AuthorPage({ params }: { params: Promise<{ slug: s
       {/* Empty State */}
       {books.length === 0 && posts.length === 0 && (
         <div className="text-center py-12 text-slate-500">
-          <p>No books or blog posts yet.</p>
+          <p>{t("emptyState")}</p>
         </div>
       )}
     </main>

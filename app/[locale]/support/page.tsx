@@ -1,6 +1,25 @@
-import FAQSection from "../components/ui/FAQSection"
+import FAQSection from "../../components/ui/FAQSection"
+import { Link } from "@/i18n/navigation"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 
-export default function SupportPage() {
+type Props = {
+  params: Promise<{ locale: string }>
+}
+
+export default async function SupportPage({ params }: Props) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations("support")
+
+  const topics = [
+    { key: "account", icon: "person" },
+    { key: "books", icon: "menu_book" },
+    { key: "quizzes", icon: "quiz" },
+    { key: "events", icon: "event" },
+    { key: "technical", icon: "build" },
+    { key: "general", icon: "help" }
+  ]
+
   return (
     <main className="bg-white text-slate-800">
 
@@ -8,11 +27,10 @@ export default function SupportPage() {
       <section className="w-4/5 mx-auto py-24">
         <div className="max-w-3xl">
           <h1 className="text-5xl font-semibold leading-tight mb-6">
-            We’re here to help.
+            {t("heroTitle")}
           </h1>
           <p className="text-lg text-slate-600 leading-relaxed">
-            Whether you have a question about our books, events, quizzes,
-            or your account, our support team is happy to assist you.
+            {t("heroDescription")}
           </p>
         </div>
       </section>
@@ -21,20 +39,13 @@ export default function SupportPage() {
       <section className="bg-violet-50 py-24">
         <div className="w-4/5 mx-auto">
           <h2 className="text-3xl font-semibold mb-12">
-            How can we help you?
+            {t("howCanWeHelp")}
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { title: "Account & Profile", icon: "person" },
-              { title: "Books & Content", icon: "menu_book" },
-              { title: "Quizzes", icon: "quiz" },
-              { title: "Events", icon: "event" },
-              { title: "Technical Issues", icon: "build" },
-              { title: "General Questions", icon: "help" }
-            ].map((item) => (
+            {topics.map((item) => (
               <div
-                key={item.title}
+                key={item.key}
                 className="
                   bg-white rounded-xl p-6
                   border border-slate-200
@@ -45,10 +56,10 @@ export default function SupportPage() {
                   {item.icon}
                 </span>
                 <h3 className="text-xl font-semibold mb-2">
-                  {item.title}
+                  {t(`topics.${item.key}`)}
                 </h3>
                 <p className="text-slate-600 text-sm">
-                  Find answers and guidance related to {item.title.toLowerCase()}.
+                  {t("findAnswers", { topic: t(`topics.${item.key}`).toLowerCase() })}
                 </p>
               </div>
             ))}
@@ -57,19 +68,17 @@ export default function SupportPage() {
       </section>
 
       {/* FAQ */}
-      {/* <section className="py-24"> */}
-        <div className="w-4/5 mx-auto max-w-5xl">
-          <FAQSection />
-        </div>
-      {/* </section> */}
+      <div className="w-4/5 mx-auto max-w-5xl">
+        <FAQSection />
+      </div>
 
       {/* CONTACT SUPPORT CTA */}
       <section className="bg-slate-900 py-20">
         <div className="w-4/5 mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
           <h2 className="text-3xl font-semibold text-white">
-            Still need help?
+            {t("stillNeedHelp")}
           </h2>
-          <a
+          <Link
             href="/contact"
             className="
               inline-flex items-center gap-2
@@ -81,8 +90,8 @@ export default function SupportPage() {
             <span className="material-symbols-outlined">
               support_agent
             </span>
-            Contact support
-          </a>
+            {t("contactSupport")}
+          </Link>
         </div>
       </section>
 

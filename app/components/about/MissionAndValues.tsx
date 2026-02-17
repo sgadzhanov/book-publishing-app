@@ -1,34 +1,36 @@
 import MissionAndValueItem from "./MissionAndValueItem";
+import { useTranslations } from "next-intl";
 
 export default function MissionAndValues() {
+  const t = useTranslations("about")
+
   return (
     <section className="bg-violet-50 py-24">
       <div className="w-4/5 mx-auto">
         <h2 className="text-3xl font-semibold mb-12">
-          Our mission & values
+          {t("missionTitle")}
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Value 1 */}
           <MissionAndValueItem
             icon="auto_stories"
-            title="Story first"
-            description="We believe great books start with honest, well-crafted stories
-              that resonate long after the last page."
+            title={t("values.storyFirst.title")}
+            description={t("values.storyFirst.description")}
           />
 
           {/* Value 2 */}
           <MissionAndValueItem
             icon="diversity_3"
-            title="Inclusive voices"
-            description="We champion diverse perspectives and believe publishing should reflect the richness of the world we live in"
+            title={t("values.inclusiveVoices.title")}
+            description={t("values.inclusiveVoices.description")}
           />
 
           {/* Value 3 */}
           <MissionAndValueItem
             icon="favorite"
-            title="Crafted with care"
-            description="From manuscript to final print, every detail matters. We work closely with authors to do their stories justice."
+            title={t("values.craftedWithCare.title")}
+            description={t("values.craftedWithCare.description")}
           />
         </div>
       </div>

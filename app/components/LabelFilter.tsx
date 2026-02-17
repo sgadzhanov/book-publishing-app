@@ -3,6 +3,7 @@
 import { Search, X } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useMemo, useState } from "react"
+import { useTranslations } from "next-intl"
 
 type FilterDropdownProps = {
   items: string[]
@@ -16,12 +17,13 @@ export default function FilterDropdown({
   items,
   itemCounts,
   queryParam,
-  placeholder = 'Search...',
-  currentFilterLabel = 'Filtered by:'
+  placeholder,
+  currentFilterLabel
 }: FilterDropdownProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const currentValue = searchParams.get(queryParam)
+  const t = useTranslations("common")
 
   const [searchTerm, setSearchTerm] = useState('')
   const [isOpen, setIsOpen] = useState(false)
@@ -82,7 +84,7 @@ export default function FilterDropdown({
             <button
               onClick={clearFilter}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-              aria-label="Clear filter"
+              aria-label={t("clearFilter")}
             >
               <X className="h-4 w-4" />
             </button>
@@ -117,7 +119,7 @@ export default function FilterDropdown({
 
                 {searchTerm && filteredItems.length === 0 && (
                   <div className="px-4 py-3 text-sm text-gray-500 text-center">
-                    No results found
+                    {t("noResultsFound")}
                   </div>
                 )}
               </div>
@@ -135,7 +137,7 @@ export default function FilterDropdown({
             <button
               onClick={clearFilter}
               className="hover:text-violet-700"
-              aria-label="Remove filter"
+              aria-label={t("removeFilter")}
             >
               <X className="h-3 w-3" />
             </button>

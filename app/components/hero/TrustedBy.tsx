@@ -1,3 +1,5 @@
+import { useTranslations } from "next-intl"
+
 function renderListItems(items: string[]) {
   return (
     <ul className="flex flex-col md:flex-row justify-center">
@@ -11,21 +13,18 @@ function renderListItems(items: string[]) {
   )
 }
 
-const arr1 = [
-  "Schools & universities", "Bookstores", "Agency partners"
-]
-
-const arr2 = [
-  "Print specialists", "Online platforms", "Public libraries"
-]
-
 export default function TrustedBy() {
+  const t = useTranslations("trustedBy")
+
+  const arr1 = [t("schools"), t("bookstores"), t("agency")]
+  const arr2 = [t("print"), t("online"), t("libraries")]
+
   return (
     <section className="py-10 bg-fuchsia-50">
       <div className="max-w-5xl m-auto flex flex-col gap-4 text-center bg-violet-100 rounded-lg border-2 border-violet-200 px-4 md:px-40 py-5">
-        <h2 className="text-slate-800 text-5xl font-bold">Trusted by top publishing partners</h2>
+        <h2 className="text-slate-800 text-5xl font-bold">{t("title")}</h2>
         <p className="text-slate-700 text-xl mb-4">
-          Partnering with industry leaders to deliver exceptional books and innovative publishing solutions for every reader.
+          {t("description")}
         </p>
         {renderListItems(arr1)}
         {renderListItems(arr2)}

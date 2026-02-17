@@ -3,10 +3,12 @@ import { postsByCategoryQuery } from "@/sanity/lib/queries"
 import { sanityFetch } from "@/sanity/lib/utils"
 import { Post } from "@/types"
 import Image from "next/image"
-import Link from "next/link"
-import FilterDropdown from "../components/LabelFilter"
+import { Link } from "@/i18n/navigation"
+import FilterDropdown from "../../components/LabelFilter"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 
 type BlogPageProps = {
+  params: Promise<{ locale: string }>
   searchParams?: Promise<{
     category?: string
   }>
@@ -14,9 +16,13 @@ type BlogPageProps = {
 
 export const revalidate = 60
 
-export default async function BlogPage({ searchParams }: BlogPageProps) {
-  const params = await searchParams
-  const currentCategory = params?.category ?? null
+export default async function BlogPage({ params, searchParams }: BlogPageProps) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations("blog")
+
+  const awaitedParams = await searchParams
+  const currentCategory = awaitedParams?.category ?? null
 
   const posts: Post[] = await sanityFetch<Post[]>({
     query: postsByCategoryQuery,
@@ -41,10 +47,9 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
       {/* HERO */}
       <section className="w-4/5 mx-auto py-24">
-        <h1 className="text-5xl font-semibold mb-6">Blog</h1>
+        <h1 className="text-5xl font-semibold mb-6">{t("title")}</h1>
         <p className="text-lg text-slate-600 max-w-3xl">
-          Thoughts, stories, and behind-the-scenes insights from our authors,
-          editors, and publishing team.
+          {t("description")}
         </p>
       </section>
 
@@ -54,14 +59,14 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
             items={allCategories}
             itemCounts={categoryCounts}
             queryParam="category"
-            placeholder="Search categories..."
-            currentFilterLabel="Category:"
+            placeholder={t("searchCategories")}
+            currentFilterLabel={t("category")}
           />
         </section>
       )}
 
       {posts.length === 0 && (
-        <p className="text-slate-500 text-lg">No posts found in this category.</p>
+        <p className="w-4/5 mx-auto text-slate-500 text-lg">{t("noPosts")}</p>
       )}
 
       {/* POSTS */}
@@ -89,9 +94,9 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
                   {post.author && (
                     <p className="text-sm text-slate-500">
-                      By {post.author.name}
+                      {t("by")} {post.author.name}
                       {post.publishedAt && (
-                        <> · {new Date(post.publishedAt).toLocaleDateString()}</>
+                        <> · {new Date(post.publishedAt).toLocaleDateString(locale)}</>
                       )}
                     </p>
                   )}
