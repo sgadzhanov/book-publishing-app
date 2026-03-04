@@ -11,11 +11,11 @@ import Image from "next/image"
 import Link from "next/link"
 import GoBack from "./GoBack"
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await params
+export async function generateMetadata({ params }: { params: Promise<{ slug: string; locale: string }> }): Promise<Metadata> {
+  const { slug, locale } = await params
   const book = await sanityFetch<BookType>({
     query: singleBookQuery,
-    params: { slug },
+    params: { slug, lang: locale },
   })
 
   if (!book) {
@@ -60,11 +60,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 }
 
-export default async function BookDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params
+export default async function BookDetailsPage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
+  const { slug, locale } = await params
   const book = await sanityFetch<BookType>({
     query: singleBookQuery,
-    params: { slug },
+    params: { slug, lang: locale },
   })
 
   if (!book) {
@@ -85,7 +85,7 @@ export default async function BookDetailsPage({ params }: { params: Promise<{ sl
 
   const relatedBooks = await sanityFetch<BookType[]>({
     query: relatedBooksQuery,
-    params: { currentSlug: slug },
+    params: { currentSlug: slug, lang: locale },
   })
 
   const bookLabels = book.labels ?? []

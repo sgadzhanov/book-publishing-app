@@ -5,7 +5,7 @@ const authorFields = groq`
 `
 
 export const allBooksQuery = groq`
-  *[_type == "book"] {
+  *[_type == "book" && language == $lang] {
     title,
     "slug": slug.current,
     coverImage,
@@ -17,7 +17,7 @@ export const allBooksQuery = groq`
   }
 `
 
-export const singleBookQuery = groq`*[_type == "book" && slug.current == $slug][0]{
+export const singleBookQuery = groq`*[_type == "book" && slug.current == $slug && language == $lang][0]{
     title,
     price,
     shortTagline,
@@ -30,7 +30,7 @@ export const singleBookQuery = groq`*[_type == "book" && slug.current == $slug][
 `
 
 export const relatedBooksQuery = groq`
-  *[_type == "book" && slug.current != $currentSlug] | order(_createdAt desc) [0...3] {
+  *[_type == "book" && slug.current != $currentSlug && language == $lang] | order(_createdAt desc) [0...3] {
     title,
     "slug": slug.current,
     coverImage,
@@ -42,7 +42,7 @@ export const relatedBooksQuery = groq`
 `
 
 export const postsQuery = groq`
-  *[_type == "post"] | order(publishedAt desc) {
+  *[_type == "post" && language == $lang] | order(publishedAt desc) {
     _id,
     title,
     "slug": slug.current,
@@ -58,7 +58,7 @@ export const postsQuery = groq`
 `
 
 export const postBySlugQuery = groq`
-  *[_type == "post" && slug.current == $slug][0]{
+  *[_type == "post" && slug.current == $slug && language == $lang][0]{
     _id,
     title,
     excerpt,
@@ -77,6 +77,7 @@ export const postBySlugQuery = groq`
 export const postsByCategoryQuery = groq`
   *[
     _type == "post"
+    && language == $lang
     && (!defined($category) || count(categories[@.title == $category]) > 0)
   ]
   | order(publishedAt desc) {
@@ -95,7 +96,7 @@ export const postsByCategoryQuery = groq`
 `
 
 export const authorsQuery = groq`
-  *[_type == "author"] | order(name asc) {
+  *[_type == "author" && language == $lang] | order(name asc) {
     _id,
     name,
     "slug": slug.current,
@@ -105,7 +106,7 @@ export const authorsQuery = groq`
 `
 
 export const authorBySlugQuery = groq`
-  *[_type == "author" && slug.current == $slug][0] {
+  *[_type == "author" && slug.current == $slug && language == $lang][0] {
     _id,
     name,
     "slug": slug.current,
@@ -115,7 +116,7 @@ export const authorBySlugQuery = groq`
 `
 
 export const postsByAuthorQuery = groq`
-  *[_type == "post" && author->slug.current == $slug]
+  *[_type == "post" && language == $lang && author->slug.current == $slug]
   | order(publishedAt desc) {
     _id,
     title,
@@ -126,7 +127,7 @@ export const postsByAuthorQuery = groq`
 `
 
 export const booksByAuthorQuery = groq`
-  *[_type == "book" && author->slug.current == $slug] {
+  *[_type == "book" && language == $lang && author->slug.current == $slug] {
     _id,
     title,
     "slug": slug.current,
@@ -136,6 +137,7 @@ export const booksByAuthorQuery = groq`
 
 export const searchQuery = groq`
   *[
+    language == $lang &&
     (
       _type == "book" &&
       (

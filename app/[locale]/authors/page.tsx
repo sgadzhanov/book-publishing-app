@@ -13,7 +13,7 @@ export default async function AuthorsPage({ params }: Props) {
   setRequestLocale(locale)
   const t = await getTranslations("authors")
 
-  const authors = await sanityFetch<Author[]>({ query: authorsQuery })
+  const authors = await sanityFetch<Author[]>({ query: authorsQuery, params: { lang: locale } })
 
   return (
     <main className="w-4/5 lg:w-3/4 mx-auto py-24">

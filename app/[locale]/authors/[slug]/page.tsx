@@ -19,7 +19,7 @@ export default async function AuthorPage({ params }: Props) {
 
   const author = await sanityFetch<Author>({
     query: authorBySlugQuery,
-    params: { slug },
+    params: { slug, lang: locale },
   })
 
   if (!author) {
@@ -33,11 +33,11 @@ export default async function AuthorPage({ params }: Props) {
   const [posts, books] = await Promise.all([
     sanityFetch<Post[]>({
       query: postsByAuthorQuery,
-      params: { slug },
+      params: { slug, lang: locale },
     }),
     sanityFetch<BookType[]>({
       query: booksByAuthorQuery,
-      params: { slug },
+      params: { slug, lang: locale },
     }),
   ])
 
