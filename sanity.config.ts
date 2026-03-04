@@ -3,6 +3,7 @@ import { structureTool } from "sanity/structure"
 import { book } from "./sanity/schemaTypes/book"
 import { author } from "./sanity/schemaTypes/author"
 import { post } from "@/sanity/schemaTypes/post"
+import { documentInternationalization } from "@sanity/document-internationalization"
 
 export default defineConfig({
   name: "default",
@@ -15,6 +16,13 @@ export default defineConfig({
 
   plugins: [
     structureTool(),
+    documentInternationalization({
+      supportedLanguages: [
+        { id: "en", title: "English" },
+        { id: "bg", title: "Bulgarian" },
+      ],
+      schemaTypes: ["book", "author", "post"]
+    })
   ],
 
   schema: {

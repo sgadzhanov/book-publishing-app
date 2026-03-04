@@ -5,19 +5,21 @@ import Link from "next/link"
 import { BookOpen, FileText, Search } from "lucide-react"
 
 type SearchPageProps = {
+  params: Promise<{ locale: string }>
   searchParams?: Promise<{
     q?: string
   }>
 }
 
-export default async function SearchPage({ searchParams }: SearchPageProps) {
-  const params = await searchParams
-  const sanitizedQ = params?.q?.trim()
+export default async function SearchPage({ params, searchParams }: SearchPageProps) {
+  const { locale } = await params
+  const searchParamsAwaited = await searchParams
+  const sanitizedQ = searchParamsAwaited?.q?.trim()
 
   const results = sanitizedQ
     ? await sanityFetch<SearchResult[]>({
       query: searchQuery,
-      params: { q: `*${sanitizedQ}*` },
+      params: { q: `*${sanitizedQ}*`, lang: locale },
     })
     : []
 
@@ -32,7 +34,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         </h1>
 
         {/* Search Input on Page */}
-        <form action="/search" method="get" className="relative">
+        <form action={`/${locale}/search`} method="get" className="relative">
           <button
             type="submit"
             className="absolute left-6 top-1/2 -translate-1/2 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"

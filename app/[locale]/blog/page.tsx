@@ -26,11 +26,16 @@ export default async function BlogPage({ params, searchParams }: BlogPageProps) 
 
   const posts: Post[] = await sanityFetch<Post[]>({
     query: postsByCategoryQuery,
-    params: { category: currentCategory }
+    params: { category: currentCategory, lang: locale }
   })
 
   const allCategories = await sanityFetch<string[]>({
-    query: `array::unique(*[_type == "post"].categories[].title) | order(@)`
+    query: `
+      array::unique(
+        *[_type == "post" && language == $lang].categories[].title
+      ) | order(@)
+    `,
+    params: { lang: locale }
   })
 
   const categoryCounts = posts.reduce((acc, post) => {

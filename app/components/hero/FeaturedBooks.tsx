@@ -3,9 +3,12 @@ import BookCard from "../BookCard"
 import { sanityFetch } from "@/sanity/lib/utils"
 import { allBooksQuery } from "@/sanity/lib/queries"
 
+type Props = {
+  locale: string
+}
 
-export default async function FeaturedBooks() {
-  const relatedBooks = await sanityFetch<BookType[]>({ query: allBooksQuery })
+export default async function FeaturedBooks({ locale }: Props) {
+  const relatedBooks = await sanityFetch<BookType[]>({ query: allBooksQuery, params: { lang: locale } })
 
   return (
     <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1 lg:gap-4">

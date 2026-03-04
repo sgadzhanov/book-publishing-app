@@ -14,5 +14,6 @@ export const book = {
     { name: 'publishedYear', title: 'Published Year', type: 'number' },
     { name: 'isFeatured', title: 'Is Featured', type: 'boolean' },
     { name: 'price', title: 'Price', type: 'number' },
+    { name: 'language', type: 'string', readOnly: true, hidden: true }
   ],
 }

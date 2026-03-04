@@ -29,7 +29,7 @@ export default async function Home({ params }: Props) {
 
       <section className="w-4/5 mx-auto my-12">
         <h2 className="text-3xl font-bold mb-6 text-slate-800">{t("featuredBooks")}</h2>
-        <FeaturedBooks />
+        <FeaturedBooks locale={locale} />
       </section>
     </>
   )

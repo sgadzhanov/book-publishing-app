@@ -51,9 +51,9 @@ export default async function BooksPage(props: BooksPageProps) {
   const sort = searchParamsSort
   const page = Number(searchParamsPage) || 1
 
-  const books: BookType[] = await sanityFetch<BookType[]>({ query: allBooksQuery })
+  const books: BookType[] = await sanityFetch<BookType[]>({ query: allBooksQuery, params: { lang: locale } })
 
-  const fetchedLabels = await sanityFetch<string[]>({ query: `array::unique(*[_type == "book"].labels[])` })
+  const fetchedLabels = await sanityFetch<string[]>({ query: `array::unique(*[_type == "book" && language == $lang].labels[])`, params: { lang: locale } })
 
   const labelCounts = books.reduce((acc, book) => {
     book.labels?.forEach(label => {

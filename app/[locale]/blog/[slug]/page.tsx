@@ -11,12 +11,12 @@ import { portableTextComponent } from "@/app/components/PortableText"
 import { getReadingTime } from "@/app/utils/readingTime"
 
 export async function generateMetadata(
-  { params }: { params: Promise<{ slug: string }> }
+  { params }: { params: Promise<{ slug: string; locale: string }> }
 ): Promise<Metadata> {
-  const awaitedParams = await params
+  const { slug, locale } = await params
   const post = await sanityFetch<Post>({
     query: postBySlugQuery,
-    params: { slug: awaitedParams.slug },
+    params: { slug, lang: locale },
   })
 
   if (!post) return { title: "Post not found" }
@@ -53,11 +53,11 @@ export async function generateMetadata(
   }
 }
 
-export default async function PostDetails({ params }: { params: Promise<{ slug: string }> }) {
-  const awaitedParams = await params
+export default async function PostDetails({ params }: { params: Promise<{ slug: string; locale: string }> }) {
+  const { slug, locale } = await params
   const post = await sanityFetch<Post>({
     query: postBySlugQuery,
-    params: { slug: awaitedParams.slug },
+    params: { slug, lang: locale },
   })
 
 
