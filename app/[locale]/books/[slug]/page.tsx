@@ -92,8 +92,6 @@ export default async function BookDetailsPage({ params }: { params: Promise<{ sl
   const bookLabels = book.labels ?? []
   const primaryLabel = bookLabels.length > 0 ? bookLabels[0] : "General"
 
-  const price = book.price ?? "Contact for price"
-
   return (
     <section className="w-full max-w-6xl mx-auto px-4 mt-12 mb-6">
       <GoBack />
@@ -145,7 +143,15 @@ export default async function BookDetailsPage({ params }: { params: Promise<{ sl
           {/* TITLE & AUTHOR */}
           <div className="text-center md:text-left">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-800 leading-tight">{book.title}</h2>
-            <p className="text-xl mt-2 text-slate-600">{book.author.name}</p>
+            <div className="text-xl mt-2">
+              <span className="text-sm text-neutral-500">by </span>
+              <Link
+                href={`/authors/${book.author.slug}`}
+                className="text-xl underline text-neutral-600 hover:text-indigo-600"
+              >
+               {book.author.name}
+              </Link>
+            </div>
           </div>
           {/* LABELS */}
           {book.labels && book.labels.length > 0 && (
