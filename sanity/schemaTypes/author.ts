@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity"
+import { isUniqueOtherThanLanguage } from '../lib/isUniqueOtherThanLanguage'
 
 export const author = defineType({
   name: 'author',
@@ -15,7 +16,10 @@ export const author = defineType({
       name: 'slug',
       title: 'slug',
       type: 'slug',
-      options: { source: 'name' },
+      options: {
+        source: 'name',
+        isUnique: isUniqueOtherThanLanguage
+      },
     }),
     defineField({
       name: 'image',

@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity"
+import { isUniqueOtherThanLanguage } from '../lib/isUniqueOtherThanLanguage'
 
 export const post = defineType({
   name: "post",
@@ -23,6 +24,7 @@ export const post = defineType({
             .replace(/\s+/g, "")
             .replace(/[^\w-]+/g, "")
             .slice(0, 96),
+        isUnique: isUniqueOtherThanLanguage
       },
       validation: rule => rule.required(),
     }),

@@ -1,10 +1,20 @@
+import { isUniqueOtherThanLanguage } from '../lib/isUniqueOtherThanLanguage'
+
 export const book = {
   name: 'book',
   title: 'Books',
   type: 'document',
   fields: [
     { name: 'title', title: 'Title', type: 'string' },
-    { name: 'slug', title: 'Slug', type: 'slug', options: { source: 'title' } },
+    {
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: {
+        source: 'title',
+        isUnique: isUniqueOtherThanLanguage
+      }
+    },
     { name: 'author', title: 'Author', type: 'reference', to: [{ type: 'author' }] },
     { name: 'coverImage', title: 'Cover Image', type: 'image', options: { hotspot: true } },
     { name: 'labels', title: 'Labels', type: 'array', of: [{ type: 'string' }] },

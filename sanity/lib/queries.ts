@@ -1,9 +1,5 @@
 import { groq } from "next-sanity"
 
-const authorFields = groq`
-  author->{name, bio, "image": image.asset->url}
-`
-
 export const allBooksQuery = groq`
   *[_type == "book" && language == $lang] {
     title,
@@ -11,7 +7,7 @@ export const allBooksQuery = groq`
     coverImage,
     price,
     shortTagline,
-    ${authorFields},
+    author->{name, bio, "image": image.asset->url},
     labels,
     badges
   }
@@ -25,7 +21,7 @@ export const singleBookQuery = groq`*[_type == "book" && slug.current == $slug &
     labels,
     badges,
     coverImage,
-    ${authorFields}
+    author->{name, bio, "image": image.asset->url}
   }
 `
 
