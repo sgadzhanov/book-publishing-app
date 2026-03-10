@@ -10,6 +10,7 @@ import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import GoBack from "./GoBack"
+import BookDetailsMetadata from "@/app/components/BookDetailsMetadata"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string; locale: string }> }): Promise<Metadata> {
   const { slug, locale } = await params
@@ -127,7 +128,7 @@ export default async function BookDetailsPage({ params }: { params: Promise<{ sl
           {/* BADGES */}
           {book.badges && book.badges.length > 0 && (
             <div className="absolute top-6 left-2 flex flex-col gap-2">
-              {book.badges.map((badge, index) => (
+              {book.badges.filter(book => book.trim()).map((badge, index) => (
                 <Badge
                   key={`${badge}-${index}`}
                   badge={badge}
@@ -149,7 +150,7 @@ export default async function BookDetailsPage({ params }: { params: Promise<{ sl
           {/* LABELS */}
           {book.labels && book.labels.length > 0 && (
             <div className="flex flex-wrap justify-center gap-2 mt-4 md:justify-start">
-              {book.labels.map((label: string) => (
+              {book.labels.filter(label => label.trim()).map((label: string) => (
                 <Link
                   key={label}
                   href={`/books?labels=${encodeURIComponent(label)}`}
@@ -171,39 +172,11 @@ export default async function BookDetailsPage({ params }: { params: Promise<{ sl
             </p>
           </div>
 
-          {/* META & PRICE */}
-          <div className="mt-8 pt-8 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-            <div className="space-y-3">
-              {book.ageGroup && (
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">👥</span>
-                  <div>
-                    <p className="text-xs text-slate-500 uppercase font-semibold">Age Group</p>
-                    <p className="text-slate-800 font-medium">{book.ageGroup}</p>
-                  </div>
-                </div>
-              )}
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">📅</span>
-                <div>
-                  <p className="text-xs text-slate-500 uppercase font-semibold">Published</p>
-                  <p className="text-slate-800 font-medium">{book.publishedYear}</p>
-                </div>
-              </div>
-            </div>
-
-            {price && (
-              <div className="px-6 py-4 rounded-xl bg-slate-50 border border-slate-200 text-center">
-                <span className="block text-sm text-slate-500 uppercase font-semibold tracking-wide mb-1">Price</span>
-                <p
-                  className="text-3xl font-bold text-slate-900"
-                // className={`${typeof price === "number" ? "text-2xl" : "text-md"} font-bold text-slate-900`}
-                >
-                  {typeof price === "number" ? '€' + price.toFixed(2) : price}
-                </p>
-              </div>
-            )}
-          </div>
+          <BookDetailsMetadata
+            price={book.price}
+            ageGroup={book.ageGroup}
+            publishedYear={book.publishedYear}
+          />
         </div>
       </div>
 
