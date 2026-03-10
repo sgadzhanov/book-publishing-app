@@ -7,7 +7,7 @@ export const allBooksQuery = groq`
     coverImage,
     price,
     shortTagline,
-    author->{name, bio, "image": image.asset->url},
+    author->{name, "slug": slug.current, bio, "image": image.asset->url},
     labels,
     badges
   }
@@ -21,7 +21,7 @@ export const singleBookQuery = groq`*[_type == "book" && slug.current == $slug &
     labels,
     badges,
     coverImage,
-    author->{name, bio, "image": image.asset->url}
+    author->{name, "slug": slug.current, bio, "image": image.asset->url}
   }
 `
 
@@ -33,7 +33,7 @@ export const relatedBooksQuery = groq`
     price,
     shortTagline,
     labels,
-    author->{name}
+    author->{name, "slug": slug.current}
   }
 `
 
