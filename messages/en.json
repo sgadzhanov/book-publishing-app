@@ -99,7 +99,16 @@
     "emailPlaceholder": "email@website.com",
     "message": "Message",
     "messagePlaceholder": "Type your message...",
-    "sendMessage": "Send message"
+    "sendMessage": "Send message",
+    "sending": "Sending...",
+    "success": "Your message has been sent! We'll get back to you soon.",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "errorRateLimit": "Too many requests. Please wait a few minutes before trying again.",
+    "errorNameMin": "Name must be at least 2 characters.",
+    "errorNameMax": "Name must be under 100 characters.",
+    "errorEmail": "Please enter a valid email address.",
+    "errorMessageMin": "Message must be at least 10 characters.",
+    "errorMessageMax": "Message must be under 2000 characters."
   },
   "faq": {
     "title": "Answers for curious readers",
