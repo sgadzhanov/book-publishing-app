@@ -7,7 +7,8 @@ function getResend() {
   return new Resend(apiKey)
 }
 
-const RECIPIENT_EMAIL = "mariaaboyanova@gmail.com"
+// const RECIPIENT_EMAIL = "mariaaboyanova@gmail.com"
+const RECIPIENT_EMAIL = "stoqnh4@gmail.com"
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000 // 15 minutes
 const RATE_LIMIT_MAX = 3
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -127,7 +128,7 @@ export async function POST(req: NextRequest) {
     })
 
     return NextResponse.json({ success: true })
-  } catch {
-    return NextResponse.json({ error: "send_failed" }, { status: 500 })
+  } catch (error) {
+    return NextResponse.json({ error: "send_failed", details: error }, { status: 500 })
   }
 }
