@@ -93,7 +93,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-slate-800w-4/5 mx-20 py-6 flex flex-col sm:flex-row justify-between items-center text-sm text-slate-500 gap-2">
+      <div className="border-t border-slate-800-4/5 mx-20 py-6 flex flex-col sm:flex-row justify-between items-center text-sm text-slate-500 gap-2">
         <p>
           {t("copyright", { year: new Date().getFullYear() })}
         </p>

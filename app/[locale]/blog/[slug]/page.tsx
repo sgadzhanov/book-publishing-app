@@ -72,7 +72,7 @@ export default async function PostDetails({ params }: { params: Promise<{ slug: 
   const jsonLd = {
     "@context": "https//schema.org",
     "@type": "Article",
-    headling: post.title,
+    headline: post.title,
     description: post.excerpt,
     author: {
       "@type": "Person",
@@ -88,7 +88,7 @@ export default async function PostDetails({ params }: { params: Promise<{ slug: 
 
   return (
     <>
-      <script 
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(jsonLd),

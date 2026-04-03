@@ -16,7 +16,7 @@ export const portableTextComponent = {
   },
   types: {
     pullQuote: ({ value }: any) => (
-      <blockquote className="my-6 border-l-4 border-violet-500iolet-500 pl-6 italic text-xl text-slate-800">
+      <blockquote className="my-6 border-l-4 border-violet-500 violet-500 pl-6 italic text-xl text-slate-800">
         "{value.quote}"
       </blockquote>
     ),
