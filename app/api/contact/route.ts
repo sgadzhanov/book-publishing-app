@@ -119,7 +119,7 @@ export async function POST(req: NextRequest) {
               </td>
             </tr>
             <tr>
-              <td style="padding: 10px 12px; font-weight: 600; color: #475569; vertical-align: top;">Message</td>
+              <td style="padding: 10px 12px; font-weight: 600; color: #475569; vertical-align: top;">Message:</td>
               <td style="padding: 10px 12px; white-space: pre-wrap;">${escapeHtml(trimmedMessage)}</td>
             </tr>
           </table>
