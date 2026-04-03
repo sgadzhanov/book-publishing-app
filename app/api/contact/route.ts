@@ -3,7 +3,7 @@ import { Resend } from "resend"
 
 const resend = new Resend(process.env.BOOK_PUBLISHING_APP_EMAIL_API_KEY)
 
-const RECIPIENT_EMAIL = "stoqnh4@gmail.com"
+const RECIPIENT_EMAIL = "mariaaboyanova@gmail.com"
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000 // 15 minutes
 const RATE_LIMIT_MAX = 3
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
