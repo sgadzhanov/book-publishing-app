@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
 import { Resend } from "resend"
 
-const resend = new Resend(process.env.BOOK_PUBLISHING_APP_EMAIL_API_KEY)
+function getResend() {
+  const apiKey = process.env.BOOK_PUBLISHING_APP_EMAIL_API_KEY
+  if (!apiKey) throw new Error("BOOK_PUBLISHING_APP_EMAIL_API_KEY is not set")
+  return new Resend(apiKey)
+}
 
 const RECIPIENT_EMAIL = "mariaaboyanova@gmail.com"
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000 // 15 minutes
@@ -91,7 +95,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    await resend.emails.send({
+    await getResend().emails.send({
       from: "Contact Form <onboarding@resend.dev>",
       to: RECIPIENT_EMAIL,
       subject: `New contact message from ${trimmedName}`,
