@@ -1,9 +1,18 @@
 import { NextRequest, NextResponse } from "next/server"
 import { Resend } from "resend"
 
-const resend = new Resend(process.env.BOOK_PUBLISHING_APP_EMAIL_API_KEY ?? "")
-
+const EMAIL_API_KEY = process.env.BOOK_PUBLISHING_APP_EMAIL_API_KEY?.trim()
 const RECIPIENT_EMAIL = "stoqnh4@gmail.com"
+const SENDER_EMAIL = "Contact Form <onboarding@resend.dev>"
+
+function getResend() {
+  if (!EMAIL_API_KEY) {
+    return null
+  }
+
+  return new Resend(EMAIL_API_KEY)
+}
+
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000 // 15 minutes
 const RATE_LIMIT_MAX = 3
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -90,39 +99,90 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "validation", errors }, { status: 422 })
   }
 
-  const { error } = await resend.emails.send({
-    from: "Contact Form <onboarding@resend.dev>",
-    to: RECIPIENT_EMAIL,
-    subject: `New contact message from ${trimmedName}`,
-    html: `
-      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #1e293b;">
-        <h2 style="color: #4f46e5; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px;">
-          New Contact Form Submission
-        </h2>
-        <table style="width: 100%; border-collapse: collapse; margin-top: 16px;">
-          <tr>
-            <td style="padding: 10px 12px; font-weight: 600; color: #475569; width: 100px;">Name</td>
-            <td style="padding: 10px 12px;">${escapeHtml(trimmedName)}</td>
-          </tr>
-          <tr style="background: #f8fafc;">
-            <td style="padding: 10px 12px; font-weight: 600; color: #475569;">Email</td>
-            <td style="padding: 10px 12px;">
-              <a href="mailto:${escapeHtml(trimmedEmail)}" style="color: #4f46e5;">
-                ${escapeHtml(trimmedEmail)}
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <td style="padding: 10px 12px; font-weight: 600; color: #475569; vertical-align: top;">Message</td>
-            <td style="padding: 10px 12px; white-space: pre-wrap;">${escapeHtml(trimmedMessage)}</td>
-          </tr>
-        </table>
-      </div>
-    `,
-  })
+  const resend = getResend()
 
-  if (error) {
-    return NextResponse.json({ error: "send_failed", errorMessage: error.message }, { status: 500 })
+  if (!resend) {
+    console.error("Contact form email send skipped: BOOK_PUBLISHING_APP_EMAIL_API_KEY is missing.")
+    return NextResponse.json(
+      { error: "config_missing", errorMessage: "Server email configuration is missing." },
+      { status: 500 }
+    )
+  }
+
+  try {
+    const { data, error } = await resend.emails.send({
+      from: SENDER_EMAIL,
+      to: RECIPIENT_EMAIL,
+      replyTo: trimmedEmail,
+      subject: `New contact message from ${trimmedName}`,
+      html: `
+        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #1e293b;">
+          <h2 style="color: #4f46e5; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px;">
+            New Contact Form Submission
+          </h2>
+          <table style="width: 100%; border-collapse: collapse; margin-top: 16px;">
+            <tr>
+              <td style="padding: 10px 12px; font-weight: 600; color: #475569; width: 100px;">Name</td>
+              <td style="padding: 10px 12px;">${escapeHtml(trimmedName)}</td>
+            </tr>
+            <tr style="background: #f8fafc;">
+              <td style="padding: 10px 12px; font-weight: 600; color: #475569;">Email</td>
+              <td style="padding: 10px 12px;">
+                <a href="mailto:${escapeHtml(trimmedEmail)}" style="color: #4f46e5;">
+                  ${escapeHtml(trimmedEmail)}
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 12px; font-weight: 600; color: #475569; vertical-align: top;">Message</td>
+              <td style="padding: 10px 12px; white-space: pre-wrap;">${escapeHtml(trimmedMessage)}</td>
+            </tr>
+          </table>
+        </div>
+      `,
+    })
+
+    if (error) {
+      console.error("Resend rejected contact form email.", {
+        message: error.message,
+        name: error.name,
+        statusCode: error.statusCode,
+      })
+
+      return NextResponse.json(
+        {
+          error: "send_failed",
+          errorMessage: error.message,
+          errorName: error.name,
+          statusCode: error.statusCode ?? null,
+        },
+        { status: 500 }
+      )
+    }
+
+    console.info("Contact form email sent.", { emailId: data?.id ?? null })
+  } catch (error) {
+    const resendError = error as {
+      message?: string
+      name?: string
+      statusCode?: number
+    }
+
+    console.error("Contact form email send threw.", {
+      message: resendError.message,
+      name: resendError.name,
+      statusCode: resendError.statusCode,
+    })
+
+    return NextResponse.json(
+      {
+        error: "send_failed",
+        errorMessage: resendError.message ?? "Unknown email send error.",
+        errorName: resendError.name ?? "UnknownError",
+        statusCode: resendError.statusCode ?? null,
+      },
+      { status: 500 }
+    )
   }
 
   return NextResponse.json({ success: true })
