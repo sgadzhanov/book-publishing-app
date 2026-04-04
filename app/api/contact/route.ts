@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { Resend } from "resend"
 
 const EMAIL_API_KEY = process.env.BOOK_PUBLISHING_APP_EMAIL_API_KEY?.trim()
-const RECIPIENT_EMAIL = "stoqnh4@gmail.com"
+const RECIPIENT_EMAIL = "mariaaboyanova@gmail.com"
 const SENDER_EMAIL = "Contact Form <onboarding@resend.dev>"
 
 function getResend() {
