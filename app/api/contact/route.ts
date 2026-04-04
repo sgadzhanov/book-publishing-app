@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { Resend } from "resend"
 
-function getResend() {
-  const apiKey = process.env.BOOK_PUBLISHING_APP_EMAIL_API_KEY
-  if (!apiKey) throw new Error("BOOK_PUBLISHING_APP_EMAIL_API_KEY is not set")
-  return new Resend(apiKey)
-}
+const resend = new Resend(process.env.BOOK_PUBLISHING_APP_EMAIL_API_KEY ?? "")
 
-// const RECIPIENT_EMAIL = "mariaaboyanova@gmail.com"
 const RECIPIENT_EMAIL = "stoqnh4@gmail.com"
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000 // 15 minutes
 const RATE_LIMIT_MAX = 3
@@ -95,40 +90,40 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "validation", errors }, { status: 422 })
   }
 
-  try {
-    await getResend().emails.send({
-      from: "Contact Form <onboarding@resend.dev>",
-      to: RECIPIENT_EMAIL,
-      subject: `New contact message from ${trimmedName}`,
-      html: `
-        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #1e293b;">
-          <h2 style="color: #4f46e5; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px;">
-            New Contact Form Submission
-          </h2>
-          <table style="width: 100%; border-collapse: collapse; margin-top: 16px;">
-            <tr>
-              <td style="padding: 10px 12px; font-weight: 600; color: #475569; width: 100px;">Name</td>
-              <td style="padding: 10px 12px;">${escapeHtml(trimmedName)}</td>
-            </tr>
-            <tr style="background: #f8fafc;">
-              <td style="padding: 10px 12px; font-weight: 600; color: #475569;">Email</td>
-              <td style="padding: 10px 12px;">
-                <a href="mailto:${escapeHtml(trimmedEmail)}" style="color: #4f46e5;">
-                  ${escapeHtml(trimmedEmail)}
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding: 10px 12px; font-weight: 600; color: #475569; vertical-align: top;">Message:</td>
-              <td style="padding: 10px 12px; white-space: pre-wrap;">${escapeHtml(trimmedMessage)}</td>
-            </tr>
-          </table>
-        </div>
-      `,
-    })
+  const { error } = await resend.emails.send({
+    from: "Contact Form <onboarding@resend.dev>",
+    to: RECIPIENT_EMAIL,
+    subject: `New contact message from ${trimmedName}`,
+    html: `
+      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #1e293b;">
+        <h2 style="color: #4f46e5; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px;">
+          New Contact Form Submission
+        </h2>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 16px;">
+          <tr>
+            <td style="padding: 10px 12px; font-weight: 600; color: #475569; width: 100px;">Name</td>
+            <td style="padding: 10px 12px;">${escapeHtml(trimmedName)}</td>
+          </tr>
+          <tr style="background: #f8fafc;">
+            <td style="padding: 10px 12px; font-weight: 600; color: #475569;">Email</td>
+            <td style="padding: 10px 12px;">
+              <a href="mailto:${escapeHtml(trimmedEmail)}" style="color: #4f46e5;">
+                ${escapeHtml(trimmedEmail)}
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 10px 12px; font-weight: 600; color: #475569; vertical-align: top;">Message</td>
+            <td style="padding: 10px 12px; white-space: pre-wrap;">${escapeHtml(trimmedMessage)}</td>
+          </tr>
+        </table>
+      </div>
+    `,
+  })
 
-    return NextResponse.json({ success: true })
-  } catch (error) {
-    return NextResponse.json({ error: "send_failed", details: error }, { status: 500 })
+  if (error) {
+    return NextResponse.json({ error: "send_failed", errorMessage: error.message }, { status: 500 })
   }
+
+  return NextResponse.json({ success: true })
 }
