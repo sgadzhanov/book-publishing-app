@@ -12,6 +12,11 @@ const nextConfig: NextConfig = {
         hostname: 'cdn.sanity.io',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        port: '',
+      },
     ],
   },
 }

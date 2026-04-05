@@ -8,8 +8,19 @@
     "studio": "Studio",
     "search": "Search...",
     "searchMobile": "Search books & blog...",
-    "signIn": "Sign in",
-    "comingSoon": "Coming soon!"
+    "signIn": "Sign in"
+  },
+  "auth": {
+    "title": "Welcome back",
+    "subtitle": "Sign in to your account to continue",
+    "continueWithGoogle": "Continue with Google",
+    "or": "or",
+    "emailPlaceholder": "Enter your email address",
+    "sendMagicLink": "Send magic link",
+    "sending": "Sending...",
+    "checkEmailTitle": "Check your inbox!",
+    "checkEmail": "We sent a magic link to your email. Click it to sign in — no password needed.",
+    "signOut": "Sign out"
   },
   "footer": {
     "brandName": "Your Publishing House",
