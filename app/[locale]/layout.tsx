@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import NavBar from '../components/ui/NavBar';
 import Footer from '../components/ui/Footer';
+import SessionProvider from '../components/providers/SessionProvider';
 
 type Props = {
   children: React.ReactNode;
@@ -30,9 +31,11 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <NextIntlClientProvider messages={messages}>
-      <NavBar />
-      {children}
-      <Footer />
+      <SessionProvider>
+        <NavBar />
+        {children}
+        <Footer />
+      </SessionProvider>
     </NextIntlClientProvider>
   );
 }

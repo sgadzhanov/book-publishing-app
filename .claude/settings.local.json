@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(npx prisma:*)",
+      "Bash(node -e \"const d = require\\('dotenv'\\); console.log\\(Object.keys\\(d\\)\\)\")",
+      "Bash(npx auth:*)",
+      "Bash(node -e \"const crypto = require\\('crypto'\\); console.log\\('AUTH_SECRET=' + crypto.randomBytes\\(32\\).toString\\('base64'\\)\\)\")",
+      "Bash(npm run:*)",
+      "Bash(xargs grep:*)",
+      "Bash(npx tsc:*)"
     ]
   }
 }
