@@ -22,6 +22,7 @@ declare module "next-auth" {
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
+  debug: process.env.NODE_ENV === "development",
   // Cast needed: @auth/prisma-adapter and next-auth@beta ship separate @auth/core copies
   adapter: PrismaAdapter(prisma) as NextAuthConfig["adapter"],
   // JWT strategy: middleware can verify sessions without a DB call.
@@ -34,8 +35,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
     Resend({
       apiKey: process.env.BOOK_PUBLISHING_APP_EMAIL_API_KEY,
-      // Change to your verified domain once set up in Resend dashboard
-      from: "Magic Link <onboarding@resend.dev>",
+      from: process.env.AUTH_RESEND_FROM ?? "Magic Link <onboarding@resend.dev>",
     }),
   ],
   callbacks: {

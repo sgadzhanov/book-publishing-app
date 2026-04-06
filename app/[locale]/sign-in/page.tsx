@@ -10,13 +10,19 @@ export default function SignInPage() {
   const t = useTranslations("auth")
   const [email, setEmail] = useState("")
   const [sent, setSent] = useState(false)
+  const [error, setError] = useState(false)
   const [loading, setLoading] = useState(false)
 
   async function handleEmailSignIn(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
-    await signIn("resend", { email, redirect: false, callbackUrl: "/" })
-    setSent(true)
+    setError(false)
+    const result = await signIn("resend", { email, redirect: false, callbackUrl: "/" })
+    if (result?.error || result?.url?.includes("error")) {
+      setError(true)
+    } else {
+      setSent(true)
+    }
     setLoading(false)
   }
 
@@ -79,6 +85,9 @@ export default function SignInPage() {
               required
               className="w-full rounded-lg border border-slate-300 px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-200 focus:border-transparent transition-shadow"
             />
+            {error && (
+              <p className="text-sm text-red-500">{t("magicLinkError")}</p>
+            )}
             <button
               type="submit"
               disabled={loading}

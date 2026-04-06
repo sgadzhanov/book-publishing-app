@@ -20,7 +20,8 @@
     "sending": "Sending...",
     "checkEmailTitle": "Check your inbox!",
     "checkEmail": "We sent a magic link to your email. Click it to sign in — no password needed.",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "magicLinkError": "Could not send the magic link. Please try again or use Google sign-in."
   },
   "footer": {
     "brandName": "Your Publishing House",
