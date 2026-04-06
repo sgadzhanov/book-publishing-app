@@ -39,11 +39,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   callbacks: {
-    // On sign-in, stamp id + role from the DB user into the JWT token
-    jwt({ token, user }) {
+    // On sign-in, stamp id + role + image from the DB user into the JWT token.
+    // On session update (trigger: "update"), merge in new values so image/name
+    // changes are reflected in the session without requiring a sign-out.
+    jwt({ token, user, trigger, session: updateData }) {
       if (user) {
         token["id"] = user.id
         token["role"] = user.role ?? "USER"
+        if (user.image) token["picture"] = user.image
+      }
+      if (trigger === "update" && updateData) {
+        if (updateData.image !== undefined) token["picture"] = updateData.image
+        if (updateData.name !== undefined) token["name"] = updateData.name
       }
       return token
     },
@@ -51,6 +58,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     session({ session, token }) {
       session.user.id = (token["id"] as string) ?? ""
       session.user.role = (token["role"] as string) ?? "USER"
+      if (token["picture"]) session.user.image = token["picture"] as string
+      if (token["name"]) session.user.name = token["name"] as string
       return session
     },
   },

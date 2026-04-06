@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import { Link } from "@/i18n/navigation"
-import { X, Menu, Search, LogOut, User, ChevronDown } from "lucide-react"
+import { X, Menu, Search, LogOut, User, ChevronDown, UserCircle } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { useSession, signOut } from "next-auth/react"
 import LanguageSwitcher from "./LanguageSwitcher"
@@ -96,7 +96,7 @@ export default function NavBar() {
 					{status === "loading" ? (
 						<div className="w-9 h-9 rounded-full bg-slate-100 animate-pulse" />
 					) : session?.user ? (
-						<div className="relative" ref={dropdownRef}>
+						<div className="relative bg-violet-100/80 rounded-2xl" ref={dropdownRef}>
 							<button
 								onClick={() => setUserMenuOpen((prev) => !prev)}
 								className="flex items-center gap-2 hover:bg-neutral-50 border border-transparent hover:border-slate-200 transition-all py-1.5 pl-1.5 pr-2 xl:pr-3 rounded-full xl:rounded-lg cursor-pointer"
@@ -133,6 +133,14 @@ export default function NavBar() {
 										<p className="text-xs font-semibold text-slate-700 truncate">{session.user.name}</p>
 										<p className="text-xs text-slate-400 truncate">{session.user.email}</p>
 									</div>
+									<Link
+										href="/profile"
+										onClick={() => setUserMenuOpen(false)}
+										className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-slate-600 hover:bg-fuchsia-50 transition-colors cursor-pointer"
+									>
+										<UserCircle size={14} />
+										{tAuth("myProfile")}
+									</Link>
 									<button
 										onClick={() => signOut({ callbackUrl: "/" })}
 										className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-slate-600 hover:bg-fuchsia-50 transition-colors cursor-pointer"
