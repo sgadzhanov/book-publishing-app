@@ -1,6 +1,7 @@
 import { Resend } from "resend"
 import { DeliveryMode, FulfillmentStatus, OrderStatus, Prisma } from "@prisma/client"
 import { prisma as db } from "@/lib/prisma"
+import { orderConfirmationEmail } from "@/lib/email-templates"
 
 const EMAIL_API_KEY = process.env.BOOK_PUBLISHING_APP_EMAIL_API_KEY?.trim()
 const SENDER_EMAIL = process.env.RESEND_ORDERS_FROM ?? "Orders <onboarding@resend.dev>"
@@ -98,47 +99,32 @@ export async function fulfillOrder(orderId: string, details?: {
     return order
   }
 
-  const itemsMarkup = order.items
-    .map((item: (typeof order.items)[number]) => {
-      const downloadLine =
-        item.deliveryMode === DeliveryMode.DIGITAL && item.downloadUrl
-          ? `<div style="margin-top:6px;"><a href="${item.downloadUrl}" style="color:#4f46e5;">Download your file</a></div>`
-          : ""
+  const isDigital = existing.deliveryMode === DeliveryMode.DIGITAL
 
-      return `
-        <li style="margin-bottom:12px;">
-          <strong>${item.title}</strong> x ${item.quantity}<br />
-          ${item.authorName ?? "Unknown author"}<br />
-          ${downloadLine}
-        </li>
-      `
-    })
-    .join("")
-
-  const shippingMarkup =
-    existing.deliveryMode === DeliveryMode.PHYSICAL && details?.shippingAddress
-      ? `
-        <h3 style="margin:20px 0 8px;">Shipping address</h3>
-        <p style="margin:0;">${formatAddress(details.shippingAddress)}</p>
-      `
-      : ""
+  const shippingFormatted =
+    !isDigital && details?.shippingAddress
+      ? formatAddress(details.shippingAddress)
+      : null
 
   await resend.emails.send({
     from: SENDER_EMAIL,
     to: email,
-    subject:
-      existing.deliveryMode === DeliveryMode.DIGITAL
-        ? `Your digital order ${order.id} is ready`
-        : `We received your order ${order.id}`,
-    html: `
-      <div style="font-family:sans-serif;max-width:620px;margin:0 auto;color:#1e293b;">
-        <h2 style="color:#4f46e5;">Order confirmation</h2>
-        <p>Thanks for your purchase${order.customerName ? `, ${order.customerName}` : ""}.</p>
-        <p>Order ID: <strong>${order.id}</strong></p>
-        <ul style="padding-left:18px;">${itemsMarkup}</ul>
-        ${shippingMarkup}
-      </div>
-    `,
+    subject: isDigital
+      ? `Your digital order is ready — ${order.id}`
+      : `We received your order — ${order.id}`,
+    html: orderConfirmationEmail({
+      orderId: order.id,
+      customerName: order.customerName,
+      isDigital,
+      items: order.items.map((item) => ({
+        title: item.title,
+        quantity: item.quantity,
+        authorName: item.authorName,
+        deliveryMode: item.deliveryMode,
+        downloadUrl: item.downloadUrl,
+      })),
+      shippingAddress: shippingFormatted,
+    }),
   })
 
   return order
