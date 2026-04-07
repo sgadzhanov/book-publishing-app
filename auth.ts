@@ -2,8 +2,10 @@ import NextAuth from "next-auth"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import Google from "next-auth/providers/google"
 import Resend from "next-auth/providers/resend"
+import { Resend as ResendClient } from "resend"
 import { prisma } from "@/lib/prisma"
 import { authConfig } from "./auth.config"
+import { magicLinkEmail } from "@/lib/email-templates"
 import type { DefaultSession, NextAuthConfig } from "next-auth"
 
 // Type augmentation — adds `id` and `role` to the session user object
@@ -36,6 +38,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     Resend({
       apiKey: process.env.BOOK_PUBLISHING_APP_EMAIL_API_KEY,
       from: process.env.AUTH_RESEND_FROM ?? "Magic Link <onboarding@resend.dev>",
+      sendVerificationRequest: async ({ identifier: email, url }) => {
+        const client = new ResendClient(process.env.BOOK_PUBLISHING_APP_EMAIL_API_KEY!)
+        const from = process.env.AUTH_RESEND_FROM ?? "Magic Link <onboarding@resend.dev>"
+        const host = new URL(url).host
+        await client.emails.send({
+          from,
+          to: email,
+          subject: `Sign in to Storia Publishing`,
+          html: magicLinkEmail(url, host),
+        })
+      },
     }),
   ],
   callbacks: {
