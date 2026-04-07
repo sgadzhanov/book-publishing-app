@@ -59,3 +59,6 @@ const data = await client.fetch(someQuery, { lang: locale, ...params })
 Required in `.env.local`:
 - `NEXT_PUBLIC_SANITY_PROJECT_ID`
 - `NEXT_PUBLIC_SANITY_DATASET`
+
+## End of line Sequence
+Use only CRLF end of line sequence files.

@@ -1,7 +1,7 @@
 import { PortableTextBlock } from "next-sanity"
 
 export type BookType = {
-  id: string
+  sanityId?: string
   title: string
   slug: string
   author: {
@@ -16,6 +16,8 @@ export type BookType = {
   publishedYear: number
   isFeatured: boolean
   price?: number
+  deliveryMode?: "physical" | "digital"
+  downloadUrl?: string
 }
 
 export type Post = {

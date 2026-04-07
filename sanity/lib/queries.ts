@@ -2,10 +2,13 @@ import { groq } from "next-sanity"
 
 export const allBooksQuery = groq`
   *[_type == "book" && language == $lang] {
+    "sanityId": _id,
     title,
     "slug": slug.current,
     coverImage,
     price,
+    deliveryMode,
+    downloadUrl,
     shortTagline,
     author->{name, "slug": slug.current, bio, "image": image.asset->url},
     labels,
@@ -14,8 +17,11 @@ export const allBooksQuery = groq`
 `
 
 export const singleBookQuery = groq`*[_type == "book" && slug.current == $slug && language == $lang][0]{
+    "sanityId": _id,
     title,
     price,
+    deliveryMode,
+    downloadUrl,
     shortTagline,
     publishedYear,
     labels,
@@ -27,10 +33,12 @@ export const singleBookQuery = groq`*[_type == "book" && slug.current == $slug &
 
 export const relatedBooksQuery = groq`
   *[_type == "book" && slug.current != $currentSlug && language == $lang] | order(_createdAt desc) [0...3] {
+    "sanityId": _id,
     title,
     "slug": slug.current,
     coverImage,
     price,
+    deliveryMode,
     shortTagline,
     labels,
     author->{name, "slug": slug.current}
@@ -127,7 +135,23 @@ export const booksByAuthorQuery = groq`
     _id,
     title,
     "slug": slug.current,
-    coverImage
+    coverImage,
+    price,
+    deliveryMode
+  }
+`
+
+export const booksBySlugsQuery = groq`
+  *[_type == "book" && language == $lang && slug.current in $slugs] {
+    "sanityId": _id,
+    title,
+    "slug": slug.current,
+    coverImage,
+    price,
+    deliveryMode,
+    downloadUrl,
+    shortTagline,
+    author->{name, "slug": slug.current}
   }
 `
 

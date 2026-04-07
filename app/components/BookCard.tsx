@@ -14,7 +14,7 @@ export default function BookCard({ book }: { book: BookType }) {
             src={imgSrc}
             alt={book.title}
             fill
-            className="object-cover transition-transform group-hover:scale-105"
+            className="object-cover transition-transform duration-400 group-hover:scale-95"
           />
         </div>
       </Link>

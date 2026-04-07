@@ -5,6 +5,7 @@ import { routing } from '@/i18n/routing';
 import NavBar from '../components/ui/NavBar';
 import Footer from '../components/ui/Footer';
 import SessionProvider from '../components/providers/SessionProvider';
+import CartProvider from '../components/providers/CartProvider';
 
 type Props = {
   children: React.ReactNode;
@@ -32,9 +33,11 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <NextIntlClientProvider messages={messages}>
       <SessionProvider>
-        <NavBar />
-        {children}
-        <Footer />
+        <CartProvider>
+          <NavBar />
+          {children}
+          <Footer />
+        </CartProvider>
       </SessionProvider>
     </NextIntlClientProvider>
   );

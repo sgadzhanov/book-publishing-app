@@ -32,6 +32,7 @@
     "react-dom": "^19.2.1",
     "resend": "^6.10.0",
     "sanity": "^5.1.0",
+    "stripe": "^22.0.0",
     "uploadthing": "^7.7.4"
   },
   "overrides": {
