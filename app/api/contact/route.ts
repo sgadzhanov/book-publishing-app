@@ -3,7 +3,7 @@ import { Resend } from "resend"
 
 const EMAIL_API_KEY = process.env.BOOK_PUBLISHING_APP_EMAIL_API_KEY?.trim()
 const RECIPIENT_EMAIL = "mariaaboyanova@gmail.com"
-const SENDER_EMAIL = "Contact Form <onboarding@resend.dev>"
+const SENDER_EMAIL = process.env.RESEND_CONTACT_FROM ?? "Contact Form <onboarding@resend.dev>"
 
 function getResend() {
   if (!EMAIL_API_KEY) {

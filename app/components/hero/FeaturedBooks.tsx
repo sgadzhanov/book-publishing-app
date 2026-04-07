@@ -18,11 +18,3 @@ export default async function FeaturedBooks({ locale }: Props) {
     </ul>
   )
 }
-
-type BookItemProps = {
-  id: string
-  title: string
-  slug: string
-  author: string
-  coverImage: string
-}

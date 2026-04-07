@@ -11,6 +11,7 @@ import Image from "next/image"
 import Link from "next/link"
 import GoBack from "./GoBack"
 import BookDetailsMetadata from "@/app/components/BookDetailsMetadata"
+import PurchaseActions from "@/app/components/cart/PurchaseActions"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string; locale: string }> }): Promise<Metadata> {
   const { slug, locale } = await params
@@ -149,7 +150,7 @@ export default async function BookDetailsPage({ params }: { params: Promise<{ sl
                 href={`/authors/${book.author.slug}`}
                 className="text-xl underline text-neutral-600 hover:text-indigo-600"
               >
-               {book.author.name}
+                {book.author.name}
               </Link>
             </div>
           </div>
@@ -182,6 +183,15 @@ export default async function BookDetailsPage({ params }: { params: Promise<{ sl
             price={book.price}
             ageGroup={book.ageGroup}
             publishedYear={book.publishedYear}
+          />
+          <PurchaseActions
+            slug={slug}
+            locale={locale}
+            title={book.title}
+            authorName={book.author.name}
+            coverImageUrl={book.coverImage ? urlFor(book.coverImage).width(500).url() : undefined}
+            price={book.price}
+            deliveryMode={book.deliveryMode === "digital" ? "digital" : "physical"}
           />
         </div>
       </div>

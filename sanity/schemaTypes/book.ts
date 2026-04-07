@@ -24,6 +24,24 @@ export const book = {
     { name: 'publishedYear', title: 'Published Year', type: 'number' },
     { name: 'isFeatured', title: 'Is Featured', type: 'boolean' },
     { name: 'price', title: 'Price', type: 'number' },
+    {
+      name: 'deliveryMode',
+      title: 'Delivery Mode',
+      type: 'string',
+      initialValue: 'physical',
+      options: {
+        list: [
+          { title: 'Physical', value: 'physical' },
+          { title: 'Digital', value: 'digital' }
+        ]
+      }
+    },
+    {
+      name: 'downloadUrl',
+      title: 'Digital Download URL',
+      type: 'url',
+      hidden: ({ document }: { document?: { deliveryMode?: string } }) => document?.deliveryMode !== 'digital'
+    },
     { name: 'language', type: 'string', readOnly: true, hidden: true }
   ],
 }

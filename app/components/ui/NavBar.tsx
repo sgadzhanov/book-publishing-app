@@ -3,10 +3,11 @@
 import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import { Link } from "@/i18n/navigation"
-import { X, Menu, Search, LogOut, User, ChevronDown, UserCircle } from "lucide-react"
+import { X, Menu, Search, LogOut, User, ChevronDown, UserCircle, ShoppingBag } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { useSession, signOut } from "next-auth/react"
 import LanguageSwitcher from "./LanguageSwitcher"
+import { useCart } from "@/app/components/providers/CartProvider"
 
 type NavLink = {
 	key: string
@@ -28,6 +29,7 @@ export default function NavBar() {
 	const t = useTranslations("navigation")
 	const tAuth = useTranslations("auth")
 	const { data: session, status } = useSession()
+	const { itemCount } = useCart()
 	const dropdownRef = useRef<HTMLDivElement>(null)
 
 	// Close dropdown when clicking outside
@@ -92,6 +94,19 @@ export default function NavBar() {
 				<div className="hidden lg:flex items-center gap-2 shrink-0">
 					<LanguageSwitcher />
 
+					<Link
+						href="/cart"
+						className="relative flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 transition-colors hover:bg-slate-50"
+						aria-label={t("cart")}
+					>
+						<ShoppingBag size={17} />
+						{itemCount > 0 ? (
+							<span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#FFA273] px-1 text-[11px] font-bold text-white">
+								{itemCount}
+							</span>
+						) : null}
+					</Link>
+
 					{/* AUTH */}
 					{status === "loading" ? (
 						<div className="w-9 h-9 rounded-full bg-slate-100 animate-pulse" />
@@ -141,6 +156,14 @@ export default function NavBar() {
 										<UserCircle size={14} />
 										{tAuth("myProfile")}
 									</Link>
+									<Link
+										href="/orders"
+										onClick={() => setUserMenuOpen(false)}
+										className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-slate-600 hover:bg-fuchsia-50 transition-colors cursor-pointer"
+									>
+										<ShoppingBag size={14} />
+										{t("orders")}
+									</Link>
 									<button
 										onClick={() => signOut({ callbackUrl: "/" })}
 										className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-slate-600 hover:bg-fuchsia-50 transition-colors cursor-pointer"
@@ -163,6 +186,14 @@ export default function NavBar() {
 
 				{/* MOBILE: language switcher + hamburger */}
 				<div className="lg:hidden flex items-center gap-3">
+					<Link href="/cart" className="relative text-slate-700" aria-label={t("cart")}>
+						<ShoppingBag size={24} />
+						{itemCount > 0 ? (
+							<span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#FFA273] px-1 text-[11px] font-bold text-white">
+								{itemCount}
+							</span>
+						) : null}
+					</Link>
 					<LanguageSwitcher />
 					<button
 						onClick={() => setIsOpen(prev => !prev)}
@@ -221,6 +252,13 @@ export default function NavBar() {
 									<LogOut size={14} />
 									{tAuth("signOut")}
 								</button>
+								<Link
+									href="/orders"
+									onClick={() => setIsOpen(false)}
+									className="text-sm font-semibold text-slate-600 hover:text-amber-600 transition-colors"
+								>
+									{t("orders")}
+								</Link>
 							</div>
 						) : (
 							<Link
